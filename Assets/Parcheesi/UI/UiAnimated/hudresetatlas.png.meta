@@ -1,0 +1,1323 @@
+fileFormatVersion: 2
+guid: 1d1d69b8bef1ad24185872a3f54f1f6d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6385361176133130515
+    second: hudresetatlas_0
+  - first:
+      213: 3758326706354166871
+    second: hudresetatlas_1
+  - first:
+      213: 5333970431167419519
+    second: hudresetatlas_2
+  - first:
+      213: 4969334493436675487
+    second: hudresetatlas_3
+  - first:
+      213: 5407732326178258081
+    second: hudresetatlas_4
+  - first:
+      213: 5689013963210825088
+    second: hudresetatlas_5
+  - first:
+      213: -7118654934611386312
+    second: hudresetatlas_6
+  - first:
+      213: 2647270718415725877
+    second: hudresetatlas_7
+  - first:
+      213: -2537222069943804811
+    second: hudresetatlas_8
+  - first:
+      213: 3587056445908637523
+    second: hudresetatlas_9
+  - first:
+      213: 8848090132001502236
+    second: hudresetatlas_10
+  - first:
+      213: 3873130121986068031
+    second: hudresetatlas_11
+  - first:
+      213: 8696302836315046316
+    second: hudresetatlas_12
+  - first:
+      213: -7445567090691310866
+    second: hudresetatlas_13
+  - first:
+      213: 7645242027444870115
+    second: hudresetatlas_14
+  - first:
+      213: -1756385579131230007
+    second: hudresetatlas_15
+  - first:
+      213: 7968389361433699850
+    second: hudresetatlas_16
+  - first:
+      213: -7967177928118440664
+    second: hudresetatlas_17
+  - first:
+      213: 3545174064938543230
+    second: hudresetatlas_18
+  - first:
+      213: -261674368977917304
+    second: hudresetatlas_19
+  - first:
+      213: -6446204451927152029
+    second: hudresetatlas_20
+  - first:
+      213: -1629795402594776890
+    second: hudresetatlas_21
+  - first:
+      213: 3453650516634571506
+    second: hudresetatlas_22
+  - first:
+      213: 5642378590011472443
+    second: hudresetatlas_23
+  - first:
+      213: 2854224086448719796
+    second: hudresetatlas_24
+  - first:
+      213: 6547623440621756301
+    second: hudresetatlas_25
+  - first:
+      213: -9165063504741705533
+    second: hudresetatlas_26
+  - first:
+      213: 5858470558152511487
+    second: hudresetatlas_27
+  - first:
+      213: 2422100423196116149
+    second: hudresetatlas_28
+  - first:
+      213: -6527923920383836414
+    second: hudresetatlas_29
+  - first:
+      213: -8733989076217621717
+    second: hudresetatlas_30
+  - first:
+      213: 5138177963694292347
+    second: hudresetatlas_31
+  - first:
+      213: 3755851357628527850
+    second: hudresetatlas_32
+  - first:
+      213: -1316573503592494214
+    second: hudresetatlas_33
+  - first:
+      213: 5508292923331646001
+    second: hudresetatlas_34
+  - first:
+      213: 1215064612754803827
+    second: hudresetatlas_35
+  - first:
+      213: 1853778156311383673
+    second: hudresetatlas_36
+  - first:
+      213: -775084603190702529
+    second: hudresetatlas_37
+  - first:
+      213: -3913326262820449523
+    second: hudresetatlas_38
+  - first:
+      213: -1729407671735010374
+    second: hudresetatlas_39
+  - first:
+      213: -6137110956279831443
+    second: hudresetatlas_40
+  - first:
+      213: -8311320752104484412
+    second: hudresetatlas_41
+  - first:
+      213: 7766310390153350005
+    second: hudresetatlas_42
+  - first:
+      213: 4984529443855413930
+    second: hudresetatlas_43
+  - first:
+      213: -2375919371877196374
+    second: hudresetatlas_44
+  - first:
+      213: -7666095005843698014
+    second: hudresetatlas_45
+  - first:
+      213: -7412127711466597320
+    second: hudresetatlas_46
+  - first:
+      213: -3140525321012502769
+    second: hudresetatlas_47
+  - first:
+      213: -8531250063727217070
+    second: hudresetatlas_48
+  - first:
+      213: 8850789946697692789
+    second: hudresetatlas_49
+  - first:
+      213: -4488098055681259649
+    second: hudresetatlas_50
+  - first:
+      213: 2519875433478892750
+    second: hudresetatlas_51
+  - first:
+      213: 8628270659136509062
+    second: hudresetatlas_52
+  - first:
+      213: 5492846592812137392
+    second: hudresetatlas_53
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: hudresetatlas_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 441
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3195cf9982c5d9850800000000000000
+      internalID: 6385361176133130515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_1
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 441
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75c9a1a1a32482430800000000000000
+      internalID: 3758326706354166871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_2
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 441
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f74db28b8d1160a40800000000000000
+      internalID: 5333970431167419519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_3
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 441
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f958363a46f96f440800000000000000
+      internalID: 4969334493436675487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_4
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 441
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ac704636ef1c0b40800000000000000
+      internalID: 5407732326178258081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_5
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 441
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08d1b6fce0073fe40800000000000000
+      internalID: 5689013963210825088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_6
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 441
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83028ef9d05753d90800000000000000
+      internalID: -7118654934611386312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 375
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 535667b41befcb420800000000000000
+      internalID: 2647270718415725877
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_8
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 375
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57cd7bc58f9f9ccd0800000000000000
+      internalID: -2537222069943804811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_9
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 375
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 357d8af15d8c7c130800000000000000
+      internalID: 3587056445908637523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_10
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 375
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c14b69a881bbaca70800000000000000
+      internalID: 8848090132001502236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_11
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 375
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3e48d1435f10c530800000000000000
+      internalID: 3873130121986068031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_12
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 375
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca1c7c9ca597fa870800000000000000
+      internalID: 8696302836315046316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_13
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 375
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eea7108ed280ca890800000000000000
+      internalID: -7445567090691310866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_14
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 310
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3eb1db32e1b591a60800000000000000
+      internalID: 7645242027444870115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_15
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 310
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c8a34b1f9010a7e0800000000000000
+      internalID: -1756385579131230007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_16
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 310
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a06e148e7e7659e60800000000000000
+      internalID: 7968389361433699850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_17
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 310
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82dea24e2e5ee6190800000000000000
+      internalID: -7967177928118440664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_18
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 310
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e78e697670df23130800000000000000
+      internalID: 3545174064938543230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_19
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 310
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88a2f3e3c885e5cf0800000000000000
+      internalID: -261674368977917304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_20
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 310
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36a2755543b7a86a0800000000000000
+      internalID: -6446204451927152029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_21
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 245
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c806c367bdc169e0800000000000000
+      internalID: -1629795402594776890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_22
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 245
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f2195eb8d4ddef20800000000000000
+      internalID: 3453650516634571506
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_23
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 245
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3a37e9de61cd4e40800000000000000
+      internalID: 5642378590011472443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_24
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 245
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b7c32e2fad3c9720800000000000000
+      internalID: 2854224086448719796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_25
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 245
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8fd74514d4ddda50800000000000000
+      internalID: 6547623440621756301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_26
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 245
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c859ff0d472fc080800000000000000
+      internalID: -9165063504741705533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_27
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 245
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fffc3c1eee77d4150800000000000000
+      internalID: 5858470558152511487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_28
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 180
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b48de680870d9120800000000000000
+      internalID: 2422100423196116149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_29
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 180
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20ffeb4e7c72865a0800000000000000
+      internalID: -6527923920383836414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_30
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 180
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2318e7b533aac680800000000000000
+      internalID: -8733989076217621717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_31
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 180
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7dfcbe72a97e4740800000000000000
+      internalID: 5138177963694292347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_32
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 180
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae4fd9019e67f1430800000000000000
+      internalID: 3755851357628527850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_33
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 180
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7b8dadbf579abde0800000000000000
+      internalID: -1316573503592494214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_34
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 180
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1321bf5ca33617c40800000000000000
+      internalID: 5508292923331646001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_35
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 114
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37cc56ed3d6ccd010800000000000000
+      internalID: 1215064612754803827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_36
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 114
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97e81535961f9b910800000000000000
+      internalID: 1853778156311383673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_37
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 114
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3e81f3f8a85e35f0800000000000000
+      internalID: -775084603190702529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_38
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 114
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0351666f7211b9c0800000000000000
+      internalID: -3913326262820449523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_39
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 114
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: abb3666a2e8eff7e0800000000000000
+      internalID: -1729407671735010374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_40
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 114
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6468cfd91a94daa0800000000000000
+      internalID: -6137110956279831443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_41
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 114
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c1da7cafc148ac80800000000000000
+      internalID: -8311320752104484412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_42
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 46
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57b0484f62a77cb60800000000000000
+      internalID: 7766310390153350005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_43
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 46
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa23a79be1b9c2540800000000000000
+      internalID: 4984529443855413930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_44
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 46
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aad5a406be9070fd0800000000000000
+      internalID: -2375919371877196374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_45
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 46
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ae4a4a753f8c9590800000000000000
+      internalID: -7666095005843698014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_46
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 46
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83454381e15d22990800000000000000
+      internalID: -7412127711466597320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_47
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 46
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0f1ee81cdc9a64d0800000000000000
+      internalID: -3140525321012502769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hudresetatlas_48
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 46
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 256b28d7449ea9980800000000000000
+      internalID: -8531250063727217070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
