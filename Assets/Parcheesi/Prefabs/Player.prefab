@@ -65,6 +65,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14b13a183f1f53d4da04f252c6e152f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  listAllShortWayToChest: []
 --- !u!1001 &4560770947570170645
 PrefabInstance:
   m_ObjectHideFlags: 0

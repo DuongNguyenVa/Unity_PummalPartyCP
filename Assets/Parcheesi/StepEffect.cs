@@ -51,7 +51,7 @@ public class StepEffect : MonoBehaviour
             //PlayerStatManager.Instance.UpdateHp(hp);
             npcOBJ.GetComponent<Animator>().SetTrigger("doAttack");
             npcOBJ.GetComponent<AnimEvent>().playerTarget = GameManagerParchessi.Instance.GetCurrentPlayerTurn();
-            GameManagerParchessi.Instance.GetCurrentPlayerTurn().SetState(PlayerControllerParchessi.State.dead);
+            GameManagerParchessi.Instance.GetCurrentPlayerTurn().SetState(PlayerControllerParchessi.State.attacked);
             npcOBJ.GetComponent<AnimEvent>().hp = hp;
             
         }
@@ -61,6 +61,27 @@ public class StepEffect : MonoBehaviour
     public UpdateHpParams updateHp;
     public AttackedParams attacked;
 
+    private void Start()
+    {
+        switch (effectType)
+        {
+            case EffectType.none:
+                break;
+            case EffectType.UpdateKey: 
+                break;
+            case EffectType.UpdateHp:
+                break;
+            case EffectType.Attacked:
+                //effectType= attacked.
+                break;
+            case EffectType.Gift:
+                break;
+            case EffectType.Goblet:
+                break;
+            default:
+                break;
+        }
+    }
     public void ActiveEffect()
     {
         switch (effectType)
@@ -87,11 +108,12 @@ public class StepEffect : MonoBehaviour
 
     public void GotGoblet()
     {
+        PlayerControllerParchessi player = GameManagerParchessi.Instance.GetCurrentPlayerTurn();
         GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.DarkSpace);
         StepManager.Instance.AsSomeGetGoblet();
-        PlayerControllerParchessi.Instance.DoDance();
-        PlayerControllerParchessi.Instance.FaceToST(Camera.main.transform.position);
-        PlayerStatManager.Instance.UpdateGoblet(1);
+        player.DoDance();
+        player.FaceToST(Camera.main.transform.position);
+        //PlayerStatManager.Instance.UpdateGoblet(1);
     }
     public void SetParams(UpdateKeyParams keyParam, UpdateHpParams hpParam, AttackedParams attackedParam)
     {

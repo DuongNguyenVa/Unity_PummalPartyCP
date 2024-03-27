@@ -8,7 +8,7 @@ public class PlayerControllerParchessi : MonoBehaviour
     public static PlayerControllerParchessi Instance;
     public enum State
     {
-        idle, moving, chosing, usingItem, dead,
+        idle, moving, chosing, usingItem, attacked,
     }
 
     public Step[] steps;
@@ -29,6 +29,7 @@ public class PlayerControllerParchessi : MonoBehaviour
     private State state;
     private InventoryManager inventoryManager;
 
+    private float timeAttacked = 3f;
 
     private void Awake()
     {
@@ -49,6 +50,7 @@ public class PlayerControllerParchessi : MonoBehaviour
         ///    
         diceController.gameObject.SetActive(false);
         diceResultText3D.fontSize = 0;
+
     }
     //todo:delete
 
@@ -58,7 +60,6 @@ public class PlayerControllerParchessi : MonoBehaviour
 
         //num = Dice.GetDice();
         num = n;
-
 
     }
     void DiceResultText3DAnim()
@@ -71,16 +72,6 @@ public class PlayerControllerParchessi : MonoBehaviour
             diceResultText3D.fontSize = 0;
         }
     }
-    private void LateUpdate()
-    {
-        if (isDiceResultText3DAnim)
-        {
-            Vector3 lookPoint = 2 * diceResultText3D.transform.position - Camera.main.transform.position; //invert lok point
-
-            diceResultText3D.transform.LookAt(lookPoint);
-            DiceResultText3DAnim();
-        }
-    }
 
     //todo:delete
     private void Update()
@@ -88,8 +79,6 @@ public class PlayerControllerParchessi : MonoBehaviour
 
         if (!isBotController)
         {
-            if (GameManagerParchessi.Instance.GetCurrentPlayerTurn() != this) return;
-
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 if (state == State.idle)
@@ -101,9 +90,18 @@ public class PlayerControllerParchessi : MonoBehaviour
         DoMove();
 
     }
+    private void LateUpdate()
+    {
+        if (isDiceResultText3DAnim)
+        {
+            Vector3 lookPoint = 2 * diceResultText3D.transform.position - Camera.main.transform.position; //invert lok point
+
+            diceResultText3D.transform.LookAt(lookPoint);
+            DiceResultText3DAnim();
+        }
+    }
     public void DoRooll()
     {
-        Debug.Log(name + " roll");
         int numRandom;
         if (numTest != 0)            //test                           
         {
@@ -181,6 +179,7 @@ public class PlayerControllerParchessi : MonoBehaviour
                 state = State.chosing;
                 GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.SomeOneChosing);
                 //currentPositionStep.ShowAllNextStep();
+
                 //show diretionArrow if not Bot
                 if (!isBotController)
                     currentPositionStep.ShowDirectionArrow(true);
@@ -225,13 +224,24 @@ public class PlayerControllerParchessi : MonoBehaviour
                 Idle();
                 //next order
 
-                Debug.Log("end my turn with " + currentPositionStep.GetComponent<StepEffect>() + "effec :" + name);
                 if (currentPositionStep.TryGetComponent(out StepEffect seff))
                 {
-                    GameManagerParchessi.Instance.WaitEndEffect(seff.timeEffect);
+                    switch (seff.effectType)
+                    {
+                      
+                        case StepEffect.EffectType.Goblet:
+                            GameManagerParchessi.Instance.WaitEndEffect(timeAttacked, true);
+                            break;
+                        default:
+                            GameManagerParchessi.Instance.WaitEndEffect(timeAttacked);
+                            break;
+                    }
+                   
                 }
                 else
-                    GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.NextOrder);
+                   GameManagerParchessi.Instance.WaitEndEffect();
+
+                //GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.NextOrder);
 
             }
         }
@@ -283,10 +293,10 @@ public class PlayerControllerParchessi : MonoBehaviour
     }
     private void Attacked()
     {
-        SetState(State.dead);
+        SetState(State.attacked);
         if (!animator.GetBool("doDeath"))
             animator.SetTrigger("doDeath");
-        Invoke("Revival", 5f);
+        Invoke(nameof(Revival), timeAttacked + 2);
     }
     private void Revival()
     {
@@ -306,8 +316,7 @@ public class PlayerControllerParchessi : MonoBehaviour
 
     public void DoDance()
     {
-        //todo: off bot
-        isBotController = false;
+       
         if (!animator.GetBool("doDance"))
             animator.SetTrigger("doDance");
 

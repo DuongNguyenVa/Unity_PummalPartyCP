@@ -92,6 +92,7 @@ public class Step : MonoBehaviour
     }
     public void ShowDirectionArrow(bool isShow)
     {
+        Debug.Log("show");
         foreach (var item in listDirectionArrow)
         {
             item.gameObject.SetActive(isShow);

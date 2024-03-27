@@ -12,67 +12,91 @@ public class BotController : MonoBehaviour
     private State botState;
 
     private NavPath navPath;
-    private void Start()
+
+
+
+    private void Instance_OnGameStateChange(GameManagerParchessi.StateGameParchessi obj)
     {
-        navPath = GetComponent<NavPath>();
-    }
-    private void Update()
-    {
-         if (GameManagerParchessi.Instance.GetCurrentPlayerTurn() != player) return;
-        if (player.isBotController)
+        if (GameManagerParchessi.Instance.GetCurrentPlayerTurn() != player) return;
+
+        switch (obj)
         {
-            GetState();
-            switch (botState)
-            {
-                case State.Idle:
-                    player.DoRooll();
-                    break;
-                case State.UseItem:
-                    break;
-                case State.Roll:
-                    break;
-                case State.Move:
-                    player.DoMove();
-                    break;
-                case State.Choosing:
-                    ChoosingNextWay();
-                    break;
-                case State.GotGoblet:
-                    break;
-                case State.Attacked:
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-    private void GetState()
-    {
-        switch (player.GetState())
-        {
-            case PlayerControllerParchessi.State.idle:
-                {
-                    SetState(State.Idle);
-                }
+            case GameManagerParchessi.StateGameParchessi.BeforStartTurn:
                 break;
-            case PlayerControllerParchessi.State.moving:
-                SetState(State.Move);
+            case GameManagerParchessi.StateGameParchessi.ChestSpawn:
                 break;
-            case PlayerControllerParchessi.State.chosing:
-                SetState(State.Choosing);
+            case GameManagerParchessi.StateGameParchessi.StartTurn:
                 break;
-            case PlayerControllerParchessi.State.usingItem:
+            case GameManagerParchessi.StateGameParchessi.WaitSomeoneEnd:
                 break;
-            case PlayerControllerParchessi.State.dead:
+            case GameManagerParchessi.StateGameParchessi.NextOrder:
+                break;
+            case GameManagerParchessi.StateGameParchessi.EndTurn:
+                break;
+            case GameManagerParchessi.StateGameParchessi.DarkSpace:
+                break;
+            case GameManagerParchessi.StateGameParchessi.LightSpace:
+                break;
+            case GameManagerParchessi.StateGameParchessi.SomeOneChosing:
+                botState = State.Choosing;
+                break;
+            case GameManagerParchessi.StateGameParchessi.SomeOneRoll:
+                botState = State.Roll;
+                break;
+            case GameManagerParchessi.StateGameParchessi.SomeOneMove:
+                break;
+            case GameManagerParchessi.StateGameParchessi.SomeOneGetEffect:
+                break;
+            case GameManagerParchessi.StateGameParchessi.WaitCameraMoving:
                 break;
             default:
                 break;
         }
     }
-    private void SetState(State st)
+
+    private void Start()
     {
-        botState = st;
+        navPath = GetComponent<NavPath>();
+        botState = State.Idle;
+
+        GameManagerParchessi.Instance.OnGameStateChangeTo += Instance_OnGameStateChange;
+
     }
+    private void Update()
+    {
+        switch (botState)
+        {
+            case State.Idle:
+                break;
+            case State.UseItem:
+                break;
+            case State.Roll:
+                {
+                    player.DoRooll();
+                    botState = State.Idle;
+                }
+                break;
+            case State.Move:
+                {
+                    player.DoMove();
+                    botState = State.Idle;
+                }
+                break;
+            case State.Choosing:
+                {
+                    ChoosingNextWay();
+                    botState = State.Idle;                  
+                }
+                break;
+            case State.GotGoblet:
+                break;
+            case State.Attacked:
+                break;
+            default:
+                break;
+        }
+    }
+
     private void ChoosingNextWay()
     {
         List<Step> listStepCanUSe = GetComponent<NavPath>().GetRightWay();

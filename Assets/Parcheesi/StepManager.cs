@@ -30,8 +30,8 @@ public class StepManager : MonoBehaviour
     {
         treaserChestVisual = Instantiate(pfTreaserChestVisual, transform);
         treaserChestVisual.SetActive(false);
-        CameraMovement.Instance.SetTagetForCamChest(treaserChestVisual.transform);
-        SpawnNewTeasureChest();
+        CameraManager.Instance.SetTargetForEventCam(treaserChestVisual.transform);
+        //SpawnNewTeasureChest();
     }
     private void Update()
     {
@@ -78,18 +78,19 @@ public class StepManager : MonoBehaviour
     {
         treaserChestVisual.GetComponentInChildren<Animation>().Play("chestTakeOff");
         GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.LightSpace);
-        Invoke(nameof(SpawnNewTeasureChest), treaserChestVisual.GetComponentInChildren<Animation>().GetClip("chestTakeOff").length + 2);
+        //Invoke(nameof(SpawnNewTeasureChest), treaserChestVisual.GetComponentInChildren<Animation>().GetClip("chestTakeOff").length + 2);
 
     }
     void ChestLanding()
     {
         treaserChestVisual.GetComponentInChildren<Animation>().Play("chestLanding");
-        Invoke(nameof(AfterChestLanding), treaserChestVisual.GetComponentInChildren<Animation>().GetClip("chestLanding").length + 2);
+        //Invoke(nameof(AfterChestLanding), treaserChestVisual.GetComponentInChildren<Animation>().GetClip("chestLanding").length + 2);
 
     }
     void AfterChestLanding()
     {
-        CameraMovement.Instance.ToogleChestView();
+        //CameraManager.Instance.ToogleChestView();
+        //CameraManager.Instance.FocusPlayer();
     }
     private void RestoreStepVisualForChest()
     {
@@ -120,8 +121,10 @@ public class StepManager : MonoBehaviour
 
     public void SpawnNewTeasureChest()
     {
-        CameraMovement.Instance.ToogleChestView();
-        GetListStepCantUseByUser(PlayerControllerParchessi.Instance.currentPositionStep, 0);
+        CameraManager.Instance.FocusEvent();
+        //GetListStepCantUseByUser(PlayerControllerParchessi.Instance.currentPositionStep, 0);
+        GetListStepCantUseByUser(GameManagerParchessi.Instance.GetCurrentPlayerTurn().currentPositionStep, 0);
+
         stepForNewChest = stepsCanSpawnChest[UnityEngine.Random.Range(0, stepsCanSpawnChest.Count)];
         OnChestSpawn?.Invoke(stepForNewChest);
         //todo; reduce first step
