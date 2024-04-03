@@ -17,7 +17,7 @@ public class InventoryManager : MonoBehaviour
     public Transform panelTrans;
 
     public List<ItemVisualInfor> listItemVisualInfor;
-    public GameObject objNoti;
+    public GameObject objGotItemNoti;
 
 
     private Item currentItemChoses;
@@ -40,11 +40,11 @@ public class InventoryManager : MonoBehaviour
         {
             itemOBJ.obj.SetActive(false);
         }
-        objNoti.SetActive(false); //hide obj noti
+        objGotItemNoti.SetActive(false); //hide obj noti
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P) && currentItemChoses?.so)
+        if (Input.GetKeyDown(KeyCode.Q) && currentItemChoses?.so)
         {
             RemoveItem(currentItemChoses.so);
             currentItemChoses.so.Use(currentItemChoses.so.itemType);
@@ -131,6 +131,6 @@ public class InventoryManager : MonoBehaviour
     }
     private void NotiGetItemOnPlayer(Sprite sp)
     {
-        AnimatedUI.Instaince.ShowHideAffter(objNoti, 2, sp);
+        AnimatedUI.Instaince.ShowHideAffter(objGotItemNoti, 2, sp);
     }
 }

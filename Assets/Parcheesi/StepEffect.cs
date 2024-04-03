@@ -24,7 +24,7 @@ public class StepEffect : MonoBehaviour
 
         public void UpdateKey()
         {
-            PlayerStatManager.Instance.UpdateKey(key);
+            GameManagerParchessi.Instance.GetCurrentPlayerTurn().UpdateStat(PlayerStatController.UpdateStatType.key,key);
 
         }
     }
@@ -37,7 +37,7 @@ public class StepEffect : MonoBehaviour
 
         public void UpdateHp()
         {
-            PlayerStatManager.Instance.UpdateHp(hp);
+            GameManagerParchessi.Instance.GetCurrentPlayerTurn().UpdateStat(PlayerStatController.UpdateStatType.hp, hp);
             vfx.Play();
         }
     }
@@ -82,7 +82,7 @@ public class StepEffect : MonoBehaviour
                 break;
         }
     }
-    public void ActiveEffect()
+    public void ActiveEffect(PlayerControllerParchessi player)
     {
         switch (effectType)
         {
@@ -92,7 +92,7 @@ public class StepEffect : MonoBehaviour
                 break;
             case EffectType.Attacked:  attacked.Attacked();
                 break;
-            case EffectType.Gift:       RandomEffecItem();
+            case EffectType.Gift:       RandomEffecItem(player);
                 break;
             case EffectType.Goblet:     GotGoblet();
                 break;
@@ -101,19 +101,19 @@ public class StepEffect : MonoBehaviour
         }
     }
 
-    public void RandomEffecItem()
+    public void RandomEffecItem(PlayerControllerParchessi player)
     {
-        PlayerControllerParchessi.Instance.GetComponent<InventoryManager>().AddItem(ItemSO.GetRamdomItem());
+        player.GetComponent<InventoryManager>().AddItem(ItemSO.GetRamdomItem());
     }
 
     public void GotGoblet()
     {
         PlayerControllerParchessi player = GameManagerParchessi.Instance.GetCurrentPlayerTurn();
-        GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.DarkSpace);
+        //GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.DarkSpace);
         StepManager.Instance.AsSomeGetGoblet();
         player.DoDance();
         player.FaceToST(Camera.main.transform.position);
-        //PlayerStatManager.Instance.UpdateGoblet(1);
+        GameManagerParchessi.Instance.GetCurrentPlayerTurn().UpdateStat(PlayerStatController.UpdateStatType.gob, +1);
     }
     public void SetParams(UpdateKeyParams keyParam, UpdateHpParams hpParam, AttackedParams attackedParam)
     {

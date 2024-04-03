@@ -77,7 +77,7 @@ public class StepManager : MonoBehaviour
     void ChestTakeOff()
     {
         treaserChestVisual.GetComponentInChildren<Animation>().Play("chestTakeOff");
-        GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.LightSpace);
+        //GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.LightSpace);
         //Invoke(nameof(SpawnNewTeasureChest), treaserChestVisual.GetComponentInChildren<Animation>().GetClip("chestTakeOff").length + 2);
 
     }

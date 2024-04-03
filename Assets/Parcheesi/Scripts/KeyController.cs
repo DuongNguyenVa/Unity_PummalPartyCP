@@ -11,7 +11,7 @@ public class KeyController : MonoBehaviour
     private bool isFollowing;
     private void Start()
     {
-        target = PlayerControllerParchessi.Instance.transform;
+        //target = PlayerControllerParchessi.Instance.transform;
 
         vfx = GetComponentInChildren<ParticleSystem>();
         ParticleSystem.MainModule main = vfx.main;
@@ -42,11 +42,11 @@ public class KeyController : MonoBehaviour
 
         }
     }
-    public void FollowTarget(Transform tg)
+    public void FollowTarget(PlayerControllerParchessi player)
     {
-        target = tg;
+        target = player.transform;
         isFollowing = true;
-        PlayerStatManager.Instance.UpdateKey(1);
+        player.UpdateStat(PlayerStatController.UpdateStatType.key, 1);
     }
     public void BackToPublic()
     {
@@ -59,9 +59,9 @@ public class KeyController : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<PlayerControllerParchessi>(out PlayerControllerParchessi player))
+        if (other.TryGetComponent(out PlayerControllerParchessi player))
         {
-            FollowTarget(player.transform);
+            FollowTarget(player);
         };
     }
 

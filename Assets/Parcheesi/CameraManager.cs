@@ -13,6 +13,8 @@ public class CameraManager : MonoBehaviour
     public CinemachineVirtualCamera overViewCam;
     public CinemachineVirtualCamera eventCam;
 
+    public Transform pfPlayerCame;
+
     //public List<CinemachineVirtualCamera> listCamera=new List<CinemachineVirtualCamera>();
 
     private ForcusType focusType;
@@ -22,7 +24,10 @@ public class CameraManager : MonoBehaviour
     {
         Instance = this;
     }
-
+    private void Start()
+    {
+      
+    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))

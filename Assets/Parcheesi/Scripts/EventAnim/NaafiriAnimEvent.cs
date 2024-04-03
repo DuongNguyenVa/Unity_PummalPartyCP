@@ -11,8 +11,8 @@ public class NaafiriAnimEvent : AnimEvent
         if (vfxHit)
         {
             vfxHit.Play();
-            PlayerStatManager.Instance.UpdateHp(hp);
-            PlayerStatManager.Instance.UpdateKey(hp);
+            GameManagerParchessi.Instance.GetCurrentPlayerTurn().UpdateStat(PlayerStatController.UpdateStatType.hp, hp);
+            GameManagerParchessi.Instance.GetCurrentPlayerTurn().UpdateStat(PlayerStatController.UpdateStatType.key, hp);
         }
     }
 }

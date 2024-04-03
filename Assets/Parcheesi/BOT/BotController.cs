@@ -13,7 +13,7 @@ public class BotController : MonoBehaviour
 
     private NavPath navPath;
 
-
+    
 
     private void Instance_OnGameStateChange(GameManagerParchessi.StateGameParchessi obj)
     {
@@ -56,6 +56,7 @@ public class BotController : MonoBehaviour
 
     private void Start()
     {
+        player = GetComponent<PlayerControllerParchessi>();
         navPath = GetComponent<NavPath>();
         botState = State.Idle;
 
@@ -108,9 +109,14 @@ public class BotController : MonoBehaviour
                 //todo: check CurrentStep(type=multi), set it's nextStep is next index in RightWay[List]
                 player.currentPositionStep.nextStep = listStepCanUSe[i + 1];
                 player.SetState(PlayerControllerParchessi.State.moving);
+                GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.none);
                 break;
             }
         }
 
+    }
+    private void OnDisable()
+    {
+        GameManagerParchessi.Instance.OnGameStateChangeTo -= Instance_OnGameStateChange;
     }
 }

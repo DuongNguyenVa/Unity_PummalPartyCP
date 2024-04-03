@@ -8,13 +8,12 @@ public class PlayerControllerParchessi : MonoBehaviour
     public static PlayerControllerParchessi Instance;
     public enum State
     {
-        idle, moving, chosing, usingItem, attacked,
+        idle, readyToRoll, moving, chosing, usingItem, attacked,
     }
 
     public Step[] steps;
     public float moveSpeed = 5f;
     public ParticleSystem vfxRun;
-    public DiceController diceController;
     public int numTest = 0;
 
     public TextMeshPro diceResultText3D;
@@ -31,27 +30,33 @@ public class PlayerControllerParchessi : MonoBehaviour
 
     private float timeAttacked = 3f;
 
+
+    private Animator animator;
+
+    public bool isBotController;
+
+    private int numSaving;
+
+    private PlayerStatController playerStat;
     private void Awake()
     {
         Instance = this;
     }
-    private Animator animator;
-
-
-    public bool isBotController;
     private void Start()
     {
         currentPositionStep = StepManager.Instance.stepsSpawn;
         inventoryManager = GetComponentInChildren<InventoryManager>();
         animator = GetComponentInChildren<Animator>();
+        playerStat = GetComponent<PlayerStatController>();
 
         transform.position = currentPositionStep.transform.position;
         ///    steps = StepManager.Instance.steps;
         ///    
-        diceController.gameObject.SetActive(false);
+        //diceController.gameObject.SetActive(false);
         diceResultText3D.fontSize = 0;
 
     }
+
     //todo:delete
 
     IEnumerator DelaySetnum(int n)
@@ -79,10 +84,15 @@ public class PlayerControllerParchessi : MonoBehaviour
 
         if (!isBotController)
         {
+            if (GameManagerParchessi.Instance.GetCurrentPlayerTurn() != this) return;
+
+            else
             if (Input.GetKeyDown(KeyCode.Space))
-            {
-                if (state == State.idle)
+            {                
+                //todo:delete
+                if (state==State.readyToRoll)
                 {
+                    state = State.idle;
                     DoRooll();
                 }
             }
@@ -100,22 +110,43 @@ public class PlayerControllerParchessi : MonoBehaviour
             DiceResultText3DAnim();
         }
     }
+    public bool CheckNumSaving(bool isCheck=true)
+    {
+        if (numSaving > 0)
+        {
+            if (!isCheck)
+                DoRooll();
+            return true;
+        }
+        return false;
+    }
     public void DoRooll()
     {
+        GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.none);
+
         int numRandom;
-        if (numTest != 0)            //test                           
+        if (numSaving != 0)
         {
-            numRandom = numTest;
+            numRandom = numSaving;
+            numSaving = 0;
         }
         else
-            numRandom = Dice.GetDice();
-        diceResultText3D.text = numRandom + "";
-        isDiceResultText3DAnim = true;
-        StartCoroutine(DelaySetnum(numRandom));
+        {
+            if (numTest != 0)            //test   static num                        
+            {
+                numRandom = numTest;
+            }
+            else
+                numRandom = Dice.GetDice();
 
+            diceResultText3D.text = numRandom + "";
+            isDiceResultText3DAnim = true;
+            //diceController.gameObject.SetActive(true);
+            animator.SetTrigger("doDice");
+        }
+
+        StartCoroutine(DelaySetnum(numRandom));
         state = State.moving;
-        diceController.gameObject.SetActive(true);
-        animator.SetTrigger("doDice");
     }
     public void DoMove()
     {
@@ -170,6 +201,14 @@ public class PlayerControllerParchessi : MonoBehaviour
             {
                 nextPosition = currentPositionStep.nextStep.transform.position;
                 ismove = true;
+
+                if (num != 1 && currentPositionStep.nextStep.TryGetComponent(out StepEffect sff))
+                {
+                    if (sff.effectType == StepEffect.EffectType.Goblet)
+                    {
+                        SetNumSaving();
+                    }
+                }
             }
         }
         else
@@ -218,28 +257,38 @@ public class PlayerControllerParchessi : MonoBehaviour
 
                 if (currentPositionStep.TryGetComponent(out StepEffect sEff))
                 {
-                    sEff.ActiveEffect();
+                    sEff.ActiveEffect(this);
                 }
                 state = State.idle;
                 Idle();
-                //next order
 
                 if (currentPositionStep.TryGetComponent(out StepEffect seff))
                 {
                     switch (seff.effectType)
                     {
-                      
+
                         case StepEffect.EffectType.Goblet:
-                            GameManagerParchessi.Instance.WaitEndEffect(timeAttacked, true);
+                            {
+                                if (numSaving != 0)
+                                {
+                                    GameManagerParchessi.Instance.WaitEndEffect(timeAttacked, true, true);
+                                    Debug.Log("Got goblet but still move");
+                                }
+                                else
+                                {
+                                    GameManagerParchessi.Instance.WaitEndEffect(timeAttacked, true);
+                                }
+                            }
                             break;
                         default:
                             GameManagerParchessi.Instance.WaitEndEffect(timeAttacked);
                             break;
                     }
-                   
+
                 }
                 else
-                   GameManagerParchessi.Instance.WaitEndEffect();
+                    GameManagerParchessi.Instance.WaitEndEffect();
+
 
                 //GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.NextOrder);
 
@@ -270,7 +319,17 @@ public class PlayerControllerParchessi : MonoBehaviour
         Vector3 newTargetPOS = new Vector3(tartgetPOS.x, transform.position.y, tartgetPOS.z);
         transform.LookAt(newTargetPOS);
     }
+    private void SetNumSaving()
+    {
+        numSaving = num - 1;
+        num = 1;
+    }
+    public void UpdateStat(PlayerStatController.UpdateStatType updateStatType, int value)
+    {
 
+        playerStat.UpdateStat(updateStatType, value);
+
+    }
 
     //anim
     private void Run()
@@ -316,7 +375,7 @@ public class PlayerControllerParchessi : MonoBehaviour
 
     public void DoDance()
     {
-       
+
         if (!animator.GetBool("doDance"))
             animator.SetTrigger("doDance");
 

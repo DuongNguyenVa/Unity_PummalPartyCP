@@ -9,7 +9,9 @@ public class GameManagerParchessi : MonoBehaviour
     public static GameManagerParchessi Instance;
     public enum StateGameParchessi
     {
-      none,  BeforStartTurn, ChestSpawn, StartTurn, WaitSomeoneEnd, NextOrder, EndTurn, DarkSpace, LightSpace, SomeOneChosing, SomeOneRoll, SomeOneMove, SomeOneGetEffect, WaitCameraMoving,EndOrder
+        none, BeforStartTurn, ChestSpawn, StartTurn, WaitSomeoneEnd, NextOrder, EndTurn, DarkSpace, LightSpace, SomeOneChosing,
+        SomeOneRoll, SomeOneMove, SomeOneGetEffect, SomeOneGetGoblrtStillMoving, WaitCameraMoving, EndOrder, SomeOneUsingItem,
+        SomeOneWin
     }
     private StateGameParchessi state;
 
@@ -50,8 +52,7 @@ public class GameManagerParchessi : MonoBehaviour
         {
             listturnPlayOrder.Add(parentAllPlayer.GetChild(i).GetComponent<PlayerControllerParchessi>());
         }
-        //todo_test: set player 1st
-        SetCurrentPlayerTurn(0);
+        CanvasManager.Instance.InitStatCanvas(listturnPlayOrder);
 
         lightMain = GetComponentInChildren<Light>();
         treaserChest = Instantiate(pfTreaserChest, transform);
@@ -60,6 +61,8 @@ public class GameManagerParchessi : MonoBehaviour
         ResetListStepCanSpawnChest();
 
         currentOrder = 0;
+        //todo_test: set player 1st
+        SetCurrentPlayerTurn(0);
         SetState(StateGameParchessi.ChestSpawn);
     }
 
@@ -73,19 +76,25 @@ public class GameManagerParchessi : MonoBehaviour
                 {
                     SetCurrentPlayerTurn(0);
                     state = StateGameParchessi.ChestSpawn;
+                    
                 }
                 break;
             case StateGameParchessi.ChestSpawn:
-                {                    
-                     StepManager.Instance.SpawnNewTeasureChest();
-                     isChestAlready = true;
-                    
+                {
+                    StepManager.Instance.SpawnNewTeasureChest();
+                    isChestAlready = true;
+
                     state = StateGameParchessi.WaitCameraMoving;
                     SetDelayTime(3);
                 }
                 break;
             case StateGameParchessi.WaitCameraMoving:
                 {
+                    if (!currentPlayerInTurn.CheckNumSaving())
+                    {
+                        CanvasManager.Instance.PostNoti(currentPlayerInTurn.name+ "\' Turn");
+
+                    }
                     CameraManager.Instance.FocusPlayer(currentPlayerInTurn.transform);
                     state = StateGameParchessi.SomeOneRoll;
                     SetDelayTime(3);
@@ -93,8 +102,19 @@ public class GameManagerParchessi : MonoBehaviour
                 break;
             case StateGameParchessi.SomeOneRoll:
                 {
-                    OnGameStateChangeTo?.Invoke(state);
-                    state = StateGameParchessi.none;
+
+                    if (currentPlayerInTurn.isBotController)
+                    {
+                        OnGameStateChangeTo?.Invoke(state);
+                        state = StateGameParchessi.none;
+                    }
+                    else
+                    {
+                        if (!currentPlayerInTurn.CheckNumSaving(false))
+                        {//todo: player and not have numsaving
+                            currentPlayerInTurn.SetState(PlayerControllerParchessi.State.readyToRoll);                         
+                        }
+                    }
                 }
                 break;
             case StateGameParchessi.SomeOneMove:
@@ -113,17 +133,15 @@ public class GameManagerParchessi : MonoBehaviour
                 }
                 break;
             case StateGameParchessi.NextOrder:
-                {                   
+                {
                     //last order
                     if (currentOrder == listturnPlayOrder.Count)
                     {
                         currentOrder = 0;
-                        //EndOrder();
-                        //listturnPlayOrder.Clear();
-                        //state = StateGameParchessi.EndTurn;
-                    }                    
-                        SetCurrentPlayerTurn(currentOrder);
-                                        
+                        currentTurn += 1;
+                    }
+                    SetCurrentPlayerTurn(currentOrder);
+
                     if (!isChestAlready)
                     {
                         state = StateGameParchessi.ChestSpawn;
@@ -136,6 +154,16 @@ public class GameManagerParchessi : MonoBehaviour
                 break;
 
             case StateGameParchessi.SomeOneGetEffect:
+                {
+
+                }
+                break;
+            case StateGameParchessi.SomeOneWin:
+                {
+                   
+                }
+                break;
+            case StateGameParchessi.SomeOneGetGoblrtStillMoving:
                 {
 
                 }
@@ -166,7 +194,7 @@ public class GameManagerParchessi : MonoBehaviour
             case StateGameParchessi.SomeOneChosing:
                 {
                     OnGameStateChangeTo?.Invoke(state);
-                    state = StateGameParchessi.SomeOneMove;
+                    //state = StateGameParchessi.SomeOneMove;
                     if (currentPlayerInTurn.isBotController) return;
                     //todo: hightlight arrow : deleteeeeeee 
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -194,6 +222,11 @@ public class GameManagerParchessi : MonoBehaviour
     {
         state = st;
     }
+    public StateGameParchessi GetState()
+    {
+        return state;
+    }
+
     public void SpawnNewTeasureChest()
     {
         GetListStepCantUseByUser(PlayerControllerParchessi.Instance.currentPositionStep, 0);
@@ -258,21 +291,36 @@ public class GameManagerParchessi : MonoBehaviour
     {
         SetCurrentPlayerTurn();
     }
-    public void WaitEndEffect(float effTime=0, bool isGetGoblet=false)
+    public void WaitEndEffect(float effTime = 0, bool isGetGoblet = false, bool isStillMove = false)
     {
         //EndOrder();
 
         if (isGetGoblet)
         {
             isChestAlready = false;
-        }       
-        state = StateGameParchessi.SomeOneGetEffect;
+            if (isStillMove)
+            {
+                state = StateGameParchessi.SomeOneGetGoblrtStillMoving;
+                StartCoroutine(SpawnChestDelay());
+
+                IEnumerator SpawnChestDelay()
+                {
+                    yield return new WaitForSeconds(effTime);
+                    state = StateGameParchessi.ChestSpawn;
+                }
+                return;
+            }
+            else
+                StartCoroutine(End());
+        }
+        else
+            state = StateGameParchessi.SomeOneGetEffect;
         StartCoroutine(End());
+
         IEnumerator End()
         {
             yield return new WaitForSeconds(effTime);
             state = StateGameParchessi.EndOrder;
-
         }
     }
 
