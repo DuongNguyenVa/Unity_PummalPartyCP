@@ -22,7 +22,7 @@ public class DirectionArrowItem : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         stepAuthor.nextStep = step;
-        PlayerControllerParchessi.Instance.SetState(PlayerControllerParchessi.State.moving);
+        GameManagerParchessi.Instance.GetCurrentPlayerTurn().SetState(PlayerControllerParchessi.State.moving);       
         stepAuthor.ShowDirectionArrow(false);
     }
     private void Update()

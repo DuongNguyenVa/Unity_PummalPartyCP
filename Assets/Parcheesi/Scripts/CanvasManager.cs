@@ -10,7 +10,7 @@ public class CanvasManager : MonoBehaviour
     public ItemCanvasController pfPlayerCanvasItem;
 
     private Transform statCanvas;
-    private Transform inventoryCanvas;
+    //private Transform inventoryCanvas;
     private Transform notiCanvas;
 
     Dictionary<PlayerControllerParchessi,ItemCanvasController > DictnStatCanvas = new Dictionary<PlayerControllerParchessi, ItemCanvasController>();
@@ -23,19 +23,11 @@ public class CanvasManager : MonoBehaviour
     private void Start()
     {
         statCanvas = transform.Find("CanvasPlayerStat");
-        inventoryCanvas = transform.Find("CanvasInventory");
+        //inventoryCanvas = transform.Find("CanvasInventory");
         notiCanvas = transform.Find("CanvasNoti");
         notiCanvas.GetComponentInChildren<TextMeshProUGUI>().text="";
     }
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Q) && GameManagerParchessi.Instance.GetState()!=GameManagerParchessi.StateGameParchessi.SomeOneUsingItem)
-        {
-            GameObject canvasInventory = transform.Find("CanvasInventory").gameObject;
-           
-            canvasInventory.SetActive(!canvasInventory.activeSelf);
-        }
-    }
+  
     public void InitStatCanvas(List<PlayerControllerParchessi> listPlayers)
     {
         foreach (PlayerControllerParchessi pl in listPlayers)
@@ -51,10 +43,9 @@ public class CanvasManager : MonoBehaviour
     {
         ItemCanvasController icc = DictnStatCanvas[player];
         icc.UpdateUI(key, hp, hpSlideVL, gobIndex);
-        //someone win
-       
+        
     }
-    public void PostNoti(string content)
+    public void PostNoti(string content, float timeExist=0)
     {
         TextMeshProUGUI contenTex = notiCanvas.GetComponentInChildren<TextMeshProUGUI>();
         contenTex.text = content;
@@ -63,7 +54,7 @@ public class CanvasManager : MonoBehaviour
 
         IEnumerator HideConten()
         {
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(timeExist);
             contenTex.text = "";
         }
     }

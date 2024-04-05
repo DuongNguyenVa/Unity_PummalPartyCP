@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Linq;
 using UnityEngine;
 
 public class StepManager : MonoBehaviour
@@ -11,7 +11,7 @@ public class StepManager : MonoBehaviour
     public event Action<Step> OnChestSpawn;
 
     public List<Step> stepsCanSpawnChest = new List<Step>();
-    
+
     public Step stepsSpawn;
 
     public GameObject pfTreaserChestVisual;
@@ -58,7 +58,7 @@ public class StepManager : MonoBehaviour
         {
             StepEffect se = st.gameObject.AddComponent<StepEffect>();
             se.effectType = StepEffect.EffectType.Goblet;
-            stepEffectType = StepEffect.EffectType.none;           
+            stepEffectType = StepEffect.EffectType.none;
         }
 
         for (int i = 0; i < st.transform.childCount; i++)
@@ -117,13 +117,21 @@ public class StepManager : MonoBehaviour
         }
 
     }
-
-
     public void SpawnNewTeasureChest()
     {
         CameraManager.Instance.FocusEvent();
-        //GetListStepCantUseByUser(PlayerControllerParchessi.Instance.currentPositionStep, 0);
-        GetListStepCantUseByUser(GameManagerParchessi.Instance.GetCurrentPlayerTurn().currentPositionStep, 0);
+
+        //GetListStepCantUseByUser(GameManagerParchessi.Instance.GetCurrentPlayerTurn().currentPositionStep, 0);
+        List<Step> listSteps = new List<Step>();
+        foreach (PlayerControllerParchessi st in GameManagerParchessi.Instance.GetListCurrentPlayerTurn())
+        {
+            if (listSteps.Count(i => i == st.currentPositionStep) > 1)
+            {
+                break;
+            }
+            listSteps.Add(st.currentPositionStep);
+        }
+        GetListStepCantUseByUser(listSteps, 9);
 
         stepForNewChest = stepsCanSpawnChest[UnityEngine.Random.Range(0, stepsCanSpawnChest.Count)];
         OnChestSpawn?.Invoke(stepForNewChest);
@@ -132,10 +140,14 @@ public class StepManager : MonoBehaviour
         ChangeStepToTreaserChestStep(stepForNewChest);
     }
 
-    void GetListStepCantUseByUser(Step st, int countStep = 0)
+    void GetListStepCantUseByUser(List<Step> listSt, int countStep = 0)
     {
         ResetListStepCanSpawnChest();
-        RemoveStepsCantSpawnChest(st, countStep + 1);
+        foreach (Step st in listSt)
+        {
+            RemoveStepsCantSpawnChest(st, countStep + 1);
+        }
+        Debug.Log(stepsCanSpawnChest.Count);
     }
     void RemoveStepsCantSpawnChest(Step st, int countStep)
     {

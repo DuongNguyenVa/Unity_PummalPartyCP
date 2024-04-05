@@ -5,7 +5,6 @@ using UnityEngine;
 using TMPro;
 public class PlayerControllerParchessi : MonoBehaviour
 {
-    public static PlayerControllerParchessi Instance;
     public enum State
     {
         idle, readyToRoll, moving, chosing, usingItem, attacked,
@@ -14,6 +13,8 @@ public class PlayerControllerParchessi : MonoBehaviour
     public Step[] steps;
     public float moveSpeed = 5f;
     public ParticleSystem vfxRun;
+
+    public int numrockettest = 10;
     public int numTest = 0;
 
     public TextMeshPro diceResultText3D;
@@ -26,7 +27,7 @@ public class PlayerControllerParchessi : MonoBehaviour
     private Vector3 nextPosition;
     public Step currentPositionStep; //test
     private State state;
-    private InventoryManager inventoryManager;
+    private InventoryController inventoryController;
 
     private float timeAttacked = 3f;
 
@@ -38,14 +39,12 @@ public class PlayerControllerParchessi : MonoBehaviour
     private int numSaving;
 
     private PlayerStatController playerStat;
-    private void Awake()
-    {
-        Instance = this;
-    }
+    private int bonusTurn;
+
     private void Start()
     {
         currentPositionStep = StepManager.Instance.stepsSpawn;
-        inventoryManager = GetComponentInChildren<InventoryManager>();
+        inventoryController = GetComponentInChildren<InventoryController>();
         animator = GetComponentInChildren<Animator>();
         playerStat = GetComponent<PlayerStatController>();
 
@@ -88,9 +87,9 @@ public class PlayerControllerParchessi : MonoBehaviour
 
             else
             if (Input.GetKeyDown(KeyCode.Space))
-            {                
+            {
                 //todo:delete
-                if (state==State.readyToRoll)
+                if (state == State.readyToRoll)
                 {
                     state = State.idle;
                     DoRooll();
@@ -110,19 +109,12 @@ public class PlayerControllerParchessi : MonoBehaviour
             DiceResultText3DAnim();
         }
     }
-    public bool CheckNumSaving(bool isCheck=true)
-    {
-        if (numSaving > 0)
-        {
-            if (!isCheck)
-                DoRooll();
-            return true;
-        }
-        return false;
-    }
+
     public void DoRooll()
     {
         GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.none);
+        InventoryCanvasManager.Instance.ShowUI(false);
+        GetComponent<InventoryController>().SetCurrentItemChoses(null);
 
         int numRandom;
         if (numSaving != 0)
@@ -151,7 +143,7 @@ public class PlayerControllerParchessi : MonoBehaviour
     public void DoMove()
     {
 
-        if (num != 0 && !ismove)
+        if (num > 0 && !ismove)
         {
             GetNextStep();
         }
@@ -201,13 +193,22 @@ public class PlayerControllerParchessi : MonoBehaviour
             {
                 nextPosition = currentPositionStep.nextStep.transform.position;
                 ismove = true;
-
-                if (num != 1 && currentPositionStep.nextStep.TryGetComponent(out StepEffect sff))
+                if (currentPositionStep.nextStep.TryGetComponent(out StepEffect sff))
                 {
                     if (sff.effectType == StepEffect.EffectType.Goblet)
                     {
-                        SetNumSaving();
+                        //get goblet in turn bonus 
+                        if (bonusTurn > 0)
+                        {
+                            DoIdle();
+                            DoBunusTurn();
+                        }
+                        else if (num != 1)
+                        {
+                            SetNumSaving();
+                        }
                     }
+
                 }
             }
         }
@@ -222,7 +223,7 @@ public class PlayerControllerParchessi : MonoBehaviour
                 //show diretionArrow if not Bot
                 if (!isBotController)
                     currentPositionStep.ShowDirectionArrow(true);
-                Idle();
+                IdleAnim();
             }
         }
     }
@@ -253,50 +254,29 @@ public class PlayerControllerParchessi : MonoBehaviour
 
             if (num == 0)
             {
-                //enturn
-
+                DoIdle();
+                if (bonusTurn > 0)
+                {
+                    DoBunusTurn();
+                    return;
+                }
+                //endturn
                 if (currentPositionStep.TryGetComponent(out StepEffect sEff))
                 {
                     sEff.ActiveEffect(this);
                 }
-                state = State.idle;
-                Idle();
-
-                if (currentPositionStep.TryGetComponent(out StepEffect seff))
-                {
-                    switch (seff.effectType)
-                    {
-
-                        case StepEffect.EffectType.Goblet:
-                            {
-                                if (numSaving != 0)
-                                {
-                                    GameManagerParchessi.Instance.WaitEndEffect(timeAttacked, true, true);
-                                    Debug.Log("Got goblet but still move");
-                                }
-                                else
-                                {
-                                    GameManagerParchessi.Instance.WaitEndEffect(timeAttacked, true);
-                                }
-                            }
-                            break;
-                        default:
-                            GameManagerParchessi.Instance.WaitEndEffect(timeAttacked);
-                            break;
-                    }
-
-                }
-                else
+                //no effect
+                if (!currentPositionStep.GetComponent<StepEffect>())
                     GameManagerParchessi.Instance.WaitEndEffect();
-
-
-                //GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.NextOrder);
-
             }
         }
 
     }
-
+    private void DoBunusTurn()
+    {
+        bonusTurn -= 1;
+        GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.SomeOneRoll);
+    }
     public void SetState(State st)
     {
         state = st;
@@ -309,9 +289,9 @@ public class PlayerControllerParchessi : MonoBehaviour
     {
         Attacked();
     }
-    public InventoryManager GetInventoryManager()
+    public InventoryController GetInventoryController()
     {
-        return GetComponent<InventoryManager>();
+        return GetComponent<InventoryController>();
 
     }
     public void FaceToST(Vector3 tartgetPOS)
@@ -324,11 +304,27 @@ public class PlayerControllerParchessi : MonoBehaviour
         numSaving = num - 1;
         num = 1;
     }
+    public bool CheckNumSaving(bool isCheck = true)
+    {
+        if (numSaving > 0)
+        {
+            if (!isCheck)
+                DoRooll();
+            return true;
+        }
+        return false;
+    }  
     public void UpdateStat(PlayerStatController.UpdateStatType updateStatType, int value)
     {
-
         playerStat.UpdateStat(updateStatType, value);
+    }
 
+    private void DoIdle()
+    {
+        state = State.idle;
+        num = 0;
+        ismove = false;
+        IdleAnim();
     }
 
     //anim
@@ -338,14 +334,14 @@ public class PlayerControllerParchessi : MonoBehaviour
         if (!vfxRun.isPlaying)
             vfxRun.Play();
     }
-    private void Idle()
+    private void IdleAnim()
     {
         animator.SetBool("isMove", false);
         if (animator.GetBool("isUseRocket") && state == State.idle)
         {
             moveSpeed /= 3;
             animator.SetBool("isUseRocket", false);
-            inventoryManager.DisUseItemType();
+            inventoryController.DisUseItemType(); //hide rocket
         }
         if (vfxRun.isPlaying)
             vfxRun.Stop();
@@ -364,13 +360,16 @@ public class PlayerControllerParchessi : MonoBehaviour
             animator.SetTrigger("doRevival");
     }
 
-    public void UseRocket()
+    public void UseRocket(int numBonus)
     {
+        bonusTurn += 1;
         SetState(State.moving);
         animator.SetBool("isUseRocket", true);
-        num = 10;
+        if (numrockettest != 0) num = numrockettest;
+        else
+            num = numBonus;
         moveSpeed *= 3;
-        inventoryManager.UseItemType(ItemSO.ItemType.rocket);
+        inventoryController.UseItemType(ItemSO.ItemType.rocket);
     }
 
     public void DoDance()
@@ -380,5 +379,20 @@ public class PlayerControllerParchessi : MonoBehaviour
             animator.SetTrigger("doDance");
 
     }
+    public void Win()
+    {
+        animator.SetBool("isWin", true);
+    }
 
+
+    public void UseHealthItem(ParticleSystem vfx, float time)
+    {
+        inventoryController.UseItemType(ItemSO.ItemType.heal, time);
+        ParticleSystem vfxObj = Instantiate(vfx, transform);
+        var main = vfxObj.main;
+        main.loop = false;
+        vfxObj.Play();
+        if (!animator.GetBool("doHeal"))
+            animator.SetTrigger("doHeal");
+    }
 }

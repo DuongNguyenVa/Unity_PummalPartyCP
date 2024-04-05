@@ -10,13 +10,13 @@ public class StepEffect : MonoBehaviour
         none,
         UpdateKey,
         UpdateHp,
-       Attacked,
-       Gift,
-       Goblet,
+        Attacked,
+        Gift,
+        Goblet,
 
     }
     public EffectType effectType;
-    public float timeEffect;
+    private float timeEffect = 3;
     [System.Serializable]
     public class UpdateKeyParams
     {
@@ -24,7 +24,7 @@ public class StepEffect : MonoBehaviour
 
         public void UpdateKey()
         {
-            GameManagerParchessi.Instance.GetCurrentPlayerTurn().UpdateStat(PlayerStatController.UpdateStatType.key,key);
+            GameManagerParchessi.Instance.GetCurrentPlayerTurn().UpdateStat(PlayerStatController.UpdateStatType.key, key);
 
         }
     }
@@ -46,6 +46,8 @@ public class StepEffect : MonoBehaviour
     {
         public GameObject npcOBJ;
         public int hp;
+        public float timeEffect;
+
         public void Attacked()
         {
             //PlayerStatManager.Instance.UpdateHp(hp);
@@ -53,7 +55,8 @@ public class StepEffect : MonoBehaviour
             npcOBJ.GetComponent<AnimEvent>().playerTarget = GameManagerParchessi.Instance.GetCurrentPlayerTurn();
             GameManagerParchessi.Instance.GetCurrentPlayerTurn().SetState(PlayerControllerParchessi.State.attacked);
             npcOBJ.GetComponent<AnimEvent>().hp = hp;
-            
+            GameManagerParchessi.Instance.WaitEndEffect(timeEffect);
+
         }
     }
     //params
@@ -67,7 +70,7 @@ public class StepEffect : MonoBehaviour
         {
             case EffectType.none:
                 break;
-            case EffectType.UpdateKey: 
+            case EffectType.UpdateKey:
                 break;
             case EffectType.UpdateHp:
                 break;
@@ -84,26 +87,40 @@ public class StepEffect : MonoBehaviour
     }
     public void ActiveEffect(PlayerControllerParchessi player)
     {
+
         switch (effectType)
         {
-            case EffectType.UpdateKey: updateKey.UpdateKey();            
+            case EffectType.UpdateKey:
+                updateKey.UpdateKey();
+                GameManagerParchessi.Instance.WaitEndEffect(timeEffect);//todo:test
+
                 break;
-            case EffectType.UpdateHp:  updateHp.UpdateHp();
+            case EffectType.UpdateHp:
+                updateHp.UpdateHp();
+                GameManagerParchessi.Instance.WaitEndEffect(timeEffect);//todo:test
+
                 break;
-            case EffectType.Attacked:  attacked.Attacked();
+            case EffectType.Attacked:
+                attacked.Attacked();
                 break;
-            case EffectType.Gift:       RandomEffecItem(player);
+            case EffectType.Gift:
+                RandomEffecItem(player);
+                GameManagerParchessi.Instance.WaitEndEffect(timeEffect);  //todo:test
+
                 break;
-            case EffectType.Goblet:     GotGoblet();
+            case EffectType.Goblet:
+                GotGoblet();
                 break;
             default:
                 break;
         }
+
+
     }
 
     public void RandomEffecItem(PlayerControllerParchessi player)
     {
-        player.GetComponent<InventoryManager>().AddItem(ItemSO.GetRamdomItem());
+        player.GetComponent<InventoryController>().AddItem(ItemSO.GetRamdomItem());
     }
 
     public void GotGoblet()
@@ -111,9 +128,28 @@ public class StepEffect : MonoBehaviour
         PlayerControllerParchessi player = GameManagerParchessi.Instance.GetCurrentPlayerTurn();
         //GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.DarkSpace);
         StepManager.Instance.AsSomeGetGoblet();
-        player.DoDance();
         player.FaceToST(Camera.main.transform.position);
         GameManagerParchessi.Instance.GetCurrentPlayerTurn().UpdateStat(PlayerStatController.UpdateStatType.gob, +1);
+        if (player.GetComponent<PlayerStatController>().gobscount == 100)
+        {
+            player.Win();
+            //GameManagerParchessi.Instance.StopAllCoroutines();
+            GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.SomeOneWin);
+            CanvasManager.Instance.PostNoti(player.name+" Win", 1000f);
+        }
+        else
+        {
+            player.DoDance();
+            if (player.CheckNumSaving())
+            {
+                GameManagerParchessi.Instance.WaitEndEffect(timeEffect, true, true);
+                Debug.Log("Got goblet but still move");
+            }
+            else
+            {
+                GameManagerParchessi.Instance.WaitEndEffect(timeEffect, true);
+            }
+        }
     }
     public void SetParams(UpdateKeyParams keyParam, UpdateHpParams hpParam, AttackedParams attackedParam)
     {
@@ -121,5 +157,5 @@ public class StepEffect : MonoBehaviour
         updateHp = hpParam;
         attacked = attackedParam;
     }
-  
+
 }

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85b7d851ae84b714fbd745bc28b0c672, type: 3}
-  m_Name: HpBuff Item SO
+  m_Name: Attack Item SO
   m_EditorClassIdentifier: 
-  itemType: 2
-  itemName: Heal
-  sprite: {fileID: 21300000, guid: 0b8fa90343aab384184c788df8bf0a02, type: 3}
-  vfx: {fileID: 4772634663558126228, guid: 21b7c5bb1dcae0844b61da6e1dfbb560, type: 3}
-  time: 7
-  hpBuff: 10
+  itemType: 3
+  itemName: Ultimate
+  sprite: {fileID: 21300000, guid: 89f11b42ff7305941a06abb9eaa3116c, type: 3}
+  vfx: {fileID: 0}
+  time: 5
+  hpBuff: 0
   numBonus: 0

@@ -26,7 +26,8 @@ public class CameraManager : MonoBehaviour
     }
     private void Start()
     {
-      
+            overViewCam.transform.GetComponentInChildren<Canvas>().enabled=false;
+
     }
     private void Update()
     {
@@ -34,23 +35,32 @@ public class CameraManager : MonoBehaviour
         {
             TurnOnOverView();
         }
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
+       
 
         if (overViewCam.enabled)
         {
-            overViewCam.transform.Translate(new Vector3(h, v, 0) *Time.deltaTime*50f);
+            float h = Input.GetAxis("Horizontal");
+            float v = Input.GetAxis("Vertical");
+            //overViewCam.transform.Translate(new Vector3(h, v, 0) *Time.deltaTime*50f);
+            overViewCam.transform.localPosition += new Vector3(h, 0, v) * Time.deltaTime * 50f;
         }
     }
     
     private void TurnOnOverView()
     {
+
         if (!overViewCam.enabled)
         {
+            overViewCam.transform.GetComponentInChildren<Canvas>().enabled = true;
+
             Vector3 pos = GameManagerParchessi.Instance.GetCurrentPlayerTurn().transform.position;
-            overViewCam.transform.position = new Vector3(pos.x, overViewCam.transform.position.y, pos.z);
+            overViewCam.transform.position = new Vector3(pos.x, overViewCam.transform.position.y, pos.z-6f);
         }
+        else
+            overViewCam.transform.GetComponentInChildren<Canvas>().enabled = false;
+
         overViewCam.enabled = !overViewCam.enabled;
+
     }
 
     public void ToogleChestView()

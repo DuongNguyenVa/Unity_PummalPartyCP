@@ -33,7 +33,7 @@ public class PlayerStatController : MonoBehaviour
 
         if (k < 0)
         {
-            SpawnKeyEx.Istaince.SpawnIntKeysUsed(Mathf.Abs(k), PlayerControllerParchessi.Instance.transform);
+            SpawnKeyEx.Istaince.SpawnIntKeysUsed(Mathf.Abs(k), GameManagerParchessi.Instance.GetCurrentPlayerTurn().transform);
         }
     }
 
@@ -47,12 +47,10 @@ public class PlayerStatController : MonoBehaviour
         gobscount += g;
        
         CanvasManager.Instance.UpdatePlayerStat(GetComponent<PlayerControllerParchessi>(), keys, hp, hp / maxHeal, gobscount-1);
+      
     }
     public void UpdateStat(UpdateStatType updateStatType, int value)
     {
-
-
-
         switch (updateStatType)
         {
             case UpdateStatType.key:

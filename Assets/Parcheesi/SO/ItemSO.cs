@@ -8,25 +8,32 @@ public class ItemSO : ScriptableObject
 {
     public enum ItemType
     {
-       none, rocket,heal
+       none, rocket,heal, attack
     }
-
     public ItemType itemType;
     public  string itemName;
     public Sprite sprite;
+    public ParticleSystem vfx;
+    public float time;
+
+    [Header("Buff")]
     public int hpBuff;
+    public int numBonus;
     public void Use(ItemType t)
     {
+        PlayerControllerParchessi player = GameManagerParchessi.Instance.GetCurrentPlayerTurn();
+        player.SetState(PlayerControllerParchessi.State.usingItem);
         switch (t)
         {
             case ItemType.rocket:
                 {
-                    PlayerControllerParchessi.Instance.UseRocket();
+                    player.UseRocket(numBonus);
                 }
                 break;
             case ItemType.heal:
                 {
-                    PlayerStatManager.Instance.UpdateHp(hpBuff);
+                   player.UseHealthItem(vfx, time);
+                   player.UpdateStat(PlayerStatController.UpdateStatType.hp,hpBuff);                    
                 }
                 break;
             default:

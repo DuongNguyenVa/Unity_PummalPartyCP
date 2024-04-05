@@ -15,3 +15,7 @@ MonoBehaviour:
   itemType: 1
   itemName: Rocket
   sprite: {fileID: 21300000, guid: 34c11b74deb318b488b7ce1b6dfd8937, type: 3}
+  hpBuff: 0
+  vfx: {fileID: 0}
+  time: 0
+  numBonus: 10

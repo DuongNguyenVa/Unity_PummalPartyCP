@@ -40,6 +40,8 @@ public class GameManagerParchessi : MonoBehaviour
     private float timeDelay;
     private float countToDelay;
 
+    public ParticleSystem vfxWinOBJ;
+
     private void Awake()
     {
         Instance = this;
@@ -58,12 +60,10 @@ public class GameManagerParchessi : MonoBehaviour
         treaserChest = Instantiate(pfTreaserChest, transform);
         treaserChest.gameObject.SetActive(false);
 
-        ResetListStepCanSpawnChest();
-
         currentOrder = 0;
         //todo_test: set player 1st
-        SetCurrentPlayerTurn(0);
-        SetState(StateGameParchessi.ChestSpawn);
+        SetState(StateGameParchessi.BeforStartTurn);
+
     }
 
     private void Update()
@@ -75,6 +75,7 @@ public class GameManagerParchessi : MonoBehaviour
             case StateGameParchessi.BeforStartTurn:
                 {
                     SetCurrentPlayerTurn(0);
+                    InventoryCanvasManager.Instance.LoadInventoryVisual(currentPlayerInTurn.GetComponent<InventoryController>().items);
                     state = StateGameParchessi.ChestSpawn;
                     
                 }
@@ -92,8 +93,7 @@ public class GameManagerParchessi : MonoBehaviour
                 {
                     if (!currentPlayerInTurn.CheckNumSaving())
                     {
-                        CanvasManager.Instance.PostNoti(currentPlayerInTurn.name+ "\' Turn");
-
+                        CanvasManager.Instance.PostNoti(currentPlayerInTurn.name+ "\' Turn",3f);
                     }
                     CameraManager.Instance.FocusPlayer(currentPlayerInTurn.transform);
                     state = StateGameParchessi.SomeOneRoll;
@@ -112,7 +112,9 @@ public class GameManagerParchessi : MonoBehaviour
                     {
                         if (!currentPlayerInTurn.CheckNumSaving(false))
                         {//todo: player and not have numsaving
-                            currentPlayerInTurn.SetState(PlayerControllerParchessi.State.readyToRoll);                         
+                            currentPlayerInTurn.SetState(PlayerControllerParchessi.State.readyToRoll);    
+                             state = StateGameParchessi.none;
+
                         }
                     }
                 }
@@ -140,7 +142,10 @@ public class GameManagerParchessi : MonoBehaviour
                         currentOrder = 0;
                         currentTurn += 1;
                     }
+
                     SetCurrentPlayerTurn(currentOrder);
+                    InventoryCanvasManager.Instance.LoadInventoryVisual(currentPlayerInTurn.GetComponent<InventoryController>().items);
+                    currentPlayerInTurn.GetComponent<InventoryController>().SetCanUseItem(true);
 
                     if (!isChestAlready)
                     {
@@ -160,7 +165,9 @@ public class GameManagerParchessi : MonoBehaviour
                 break;
             case StateGameParchessi.SomeOneWin:
                 {
-                   
+                    vfxWinOBJ.transform.position = currentPlayerInTurn.transform.position;
+                    vfxWinOBJ.gameObject.SetActive(true);
+                    state = StateGameParchessi.none;
                 }
                 break;
             case StateGameParchessi.SomeOneGetGoblrtStillMoving:
@@ -171,6 +178,7 @@ public class GameManagerParchessi : MonoBehaviour
             case StateGameParchessi.EndOrder:
                 {
                     currentOrder += 1;
+
                     state = StateGameParchessi.NextOrder;
                 }
                 break;
@@ -229,7 +237,7 @@ public class GameManagerParchessi : MonoBehaviour
 
     public void SpawnNewTeasureChest()
     {
-        GetListStepCantUseByUser(PlayerControllerParchessi.Instance.currentPositionStep, 0);
+        GetListStepCantUseByUser(currentPlayerInTurn.currentPositionStep, 0);
         StepManager.Instance.ChangeStepToTreaserChestStep(stepsCanSpawnChest[UnityEngine.Random.Range(0, stepsCanSpawnChest.Count)]);
     }
 
@@ -274,6 +282,13 @@ public class GameManagerParchessi : MonoBehaviour
     {
         return currentPlayerInTurn;
     }
+
+
+    public List<PlayerControllerParchessi> GetListCurrentPlayerTurn()
+    {
+        return listturnPlayOrder;
+    }
+
     public void SetCurrentPlayerTurn(int index = -1)
     {
         currentPlayerInTurn = (0 <= index && index < listturnPlayOrder.Count) ? listturnPlayOrder[index] : null;
@@ -294,24 +309,26 @@ public class GameManagerParchessi : MonoBehaviour
     public void WaitEndEffect(float effTime = 0, bool isGetGoblet = false, bool isStillMove = false)
     {
         //EndOrder();
-
+     
         if (isGetGoblet)
         {
             isChestAlready = false;
             if (isStillMove)
             {
                 state = StateGameParchessi.SomeOneGetGoblrtStillMoving;
-                StartCoroutine(SpawnChestDelay());
-
-                IEnumerator SpawnChestDelay()
-                {
-                    yield return new WaitForSeconds(effTime);
-                    state = StateGameParchessi.ChestSpawn;
-                }
+                StartCoroutine(SpawnChestDelay());               
                 return;
             }
-            else
-                StartCoroutine(End());
+            //else
+            //{
+            //    StartCoroutine(SpawnChestDelay());
+            //    return;
+            //}
+            IEnumerator SpawnChestDelay()
+            {
+                yield return new WaitForSeconds(effTime);
+                state = StateGameParchessi.ChestSpawn;
+            }
         }
         else
             state = StateGameParchessi.SomeOneGetEffect;
@@ -320,6 +337,11 @@ public class GameManagerParchessi : MonoBehaviour
         IEnumerator End()
         {
             yield return new WaitForSeconds(effTime);
+            //if (isGetGoblet&&bonusTurn > 0)
+            //{
+            //    state = StateGameParchessi.ChestSpawn;
+            //}
+            //else
             state = StateGameParchessi.EndOrder;
         }
     }

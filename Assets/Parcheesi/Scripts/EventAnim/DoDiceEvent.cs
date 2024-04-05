@@ -5,11 +5,12 @@ using UnityEngine;
 public class DoDiceEvent : MonoBehaviour
 {
     private Vector3 startPos;
+    private Transform deiceObjParent;
 
     public Transform deiceObj;
-    public Transform deiceObjParent;
     private Rigidbody rig;
     public float force;
+    public ParticleSystem vfx;
 
     private void Start()
     {
@@ -20,6 +21,8 @@ public class DoDiceEvent : MonoBehaviour
     }
     public void DiceFire()
     {
+        vfx.Play();
+        vfx.transform.parent = null;
         deiceObj.transform.parent = null;
         deiceObj.gameObject.SetActive(true);
         rig.AddForce(transform.forward * force, ForceMode.Force);
@@ -31,6 +34,7 @@ public class DoDiceEvent : MonoBehaviour
         deiceObj.gameObject.SetActive(false);
         deiceObj.transform.localPosition = startPos;
         deiceObj.transform.rotation = new Quaternion(0, 0, 0, 0);
-
+        vfx.transform.parent = deiceObj.transform;
+        vfx.transform.localPosition =new Vector3(0,0.01f,-0.01f);
     }
 }
