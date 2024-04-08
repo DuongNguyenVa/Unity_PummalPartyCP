@@ -41,7 +41,7 @@ public class ItemSO : ScriptableObject
                     foreach (PlayerControllerParchessi playerAttacked in player.GetComponentInChildren<UntilmateAttack>().listPlayerTrget)
                     {
                         playerAttacked.GetAttacked();
-                        playerAttacked.UpdateStat(PlayerStatController.UpdateStatType.hp, 10);
+                        playerAttacked.UpdateStat(PlayerStatController.UpdateStatType.hp, -100);
 
                     }
                     player.UseAttackItemUltimate();

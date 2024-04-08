@@ -1590,6 +1590,10 @@ PrefabInstance:
       propertyPath: attacked.npcOBJ
       value: 
       objectReference: {fileID: 6711055929220200856}
+    - target: {fileID: 5677389629171040623, guid: 8a0e443cc46da4e458704559848c222f, type: 3}
+      propertyPath: attacked.timeEffect
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8246579221318438457, guid: 8a0e443cc46da4e458704559848c222f, type: 3}
       propertyPath: m_RootOrder
       value: 0

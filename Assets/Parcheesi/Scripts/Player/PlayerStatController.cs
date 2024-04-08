@@ -39,7 +39,9 @@ public class PlayerStatController : MonoBehaviour
 
     private void UpdateHp(int h)
     {
-        hp = Mathf.Clamp(hp + h, 0, maxHeal);
+        
+        hp = Mathf.Clamp(hp + h, 0, maxHeal); 
+        UpdateStat();
 
     }
     private void AddGoblet(int g)
@@ -49,6 +51,7 @@ public class PlayerStatController : MonoBehaviour
         CanvasManager.Instance.UpdatePlayerStat(GetComponent<PlayerControllerParchessi>(), keys, hp, hp / maxHeal, gobscount-1);
       
     }
+  
     public void UpdateStat(UpdateStatType updateStatType, int value)
     {
         switch (updateStatType)
@@ -59,7 +62,6 @@ public class PlayerStatController : MonoBehaviour
                 break;
             case UpdateStatType.hp:
                 UpdateHp(value);
-                UpdateStat();
                 break;
             case UpdateStatType.gob:
                 AddGoblet(value);
@@ -71,7 +73,7 @@ public class PlayerStatController : MonoBehaviour
 
     private void UpdateStat()
     {
-        CanvasManager.Instance.UpdatePlayerStat(GetComponent<PlayerControllerParchessi>(), keys, hp, hp / maxHeal);
+        CanvasManager.Instance.UpdatePlayerStat(GetComponent<PlayerControllerParchessi>(), keys, hp, (float)hp / (float)maxHeal);
     }
 
    

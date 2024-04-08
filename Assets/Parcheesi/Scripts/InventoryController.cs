@@ -51,11 +51,11 @@ public class InventoryController : MonoBehaviour
         if (currentItemEquipType == ItemSO.ItemType.attack)
         {
             Vector3 mousePoint = GetPlayerPlaneMousePos();
-            Vector3 dir = new Vector3(mousePoint.x, currentItemEquip.transform.GetChild(0).position.y, mousePoint.z) - currentItemEquip.transform.GetChild(0).position;
+            Vector3 dir = new Vector3(mousePoint.x, currentItemEquip.transform.position.y, mousePoint.z) - currentItemEquip.transform.position;
 
             Quaternion dirRos = Quaternion.LookRotation(dir);
-            currentItemEquip.transform.GetChild(0).rotation = Quaternion.Lerp(transform.rotation, dirRos, 1f);
-            player.transform.GetChild(0).rotation = Quaternion.Lerp(transform.rotation, dirRos, 1f);
+            currentItemEquip.transform.rotation = Quaternion.Lerp(transform.rotation, dirRos, 1f);
+            player.transform.rotation = Quaternion.Lerp(transform.rotation, dirRos, 1f);
         }
     }
     public Vector3 GetPlayerPlaneMousePos()
@@ -134,6 +134,12 @@ public class InventoryController : MonoBehaviour
     public void AfterUseItem()
     {
         HideAllObjsVisual();
+        //someone dead after use item
+        if (GameManagerParchessi.Instance.GetState() == GameManagerParchessi.StateGameParchessi.SomeOneDead)
+        {
+
+        }
+            else
         player.SetState(PlayerControllerParchessi.State.readyToRoll);
 
     }
@@ -219,6 +225,5 @@ public class InventoryController : MonoBehaviour
         currentItemEquip = GetVisualObjByType(ItemSO.ItemType.attack);
         currentItemEquip.SetActive(true);
         player.PrepareAttackItem();
-
     }
 }

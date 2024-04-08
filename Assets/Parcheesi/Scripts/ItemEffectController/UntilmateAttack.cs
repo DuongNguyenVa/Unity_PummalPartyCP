@@ -12,6 +12,7 @@ public class UntilmateAttack : MonoBehaviour
         {
             if(pl != GameManagerParchessi.Instance.GetCurrentPlayerTurn()){
                 listPlayerTrget.Add(pl);
+                vfx.Play();
             }
         }
     }
@@ -25,8 +26,5 @@ public class UntilmateAttack : MonoBehaviour
             }
         }
     }
-    private void AnimEvent_Fire()
-    {
-
-    }
+   
 }

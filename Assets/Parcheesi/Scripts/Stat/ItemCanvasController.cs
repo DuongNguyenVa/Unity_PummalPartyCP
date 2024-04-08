@@ -18,7 +18,7 @@ public class ItemCanvasController : MonoBehaviour
         if (hpSlideVL == -1)
             hpSlider.value = hpSlider.maxValue- hpSlider.maxValue;
         else
-            hpSlider.value = hpSlider.maxValue - hpSlideVL;
+            hpSlider.value = hpSlider.maxValue - Mathf.Abs(hpSlideVL);
         UpdateGoblet(gobsindex);
     }
     private void UpdateGoblet(int glcount = -1)

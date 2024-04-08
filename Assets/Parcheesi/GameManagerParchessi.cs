@@ -11,7 +11,7 @@ public class GameManagerParchessi : MonoBehaviour
     {
         none, BeforStartTurn, ChestSpawn, StartTurn, WaitSomeoneEnd, NextOrder, EndTurn, DarkSpace, LightSpace, SomeOneChosing,
         SomeOneRoll, SomeOneMove, SomeOneGetEffect, SomeOneGetGoblrtStillMoving, WaitCameraMoving, EndOrder, SomeOneUsingItem,
-        SomeOneWin
+        SomeOneWin, SomeOneDead
     }
     private StateGameParchessi state;
 
@@ -337,15 +337,12 @@ public class GameManagerParchessi : MonoBehaviour
         IEnumerator End()
         {
             yield return new WaitForSeconds(effTime);
-            //if (isGetGoblet&&bonusTurn > 0)
-            //{
-            //    state = StateGameParchessi.ChestSpawn;
-            //}
-            //else
+            
             state = StateGameParchessi.EndOrder;
+
         }
     }
-
+    
     private void SetDelayTime(float t)
     {
         timeDelay = t;

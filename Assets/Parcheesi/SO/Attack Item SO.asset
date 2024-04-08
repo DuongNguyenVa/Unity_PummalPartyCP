@@ -16,6 +16,6 @@ MonoBehaviour:
   itemName: Ultimate
   sprite: {fileID: 21300000, guid: 89f11b42ff7305941a06abb9eaa3116c, type: 3}
   vfx: {fileID: 0}
-  time: 0
+  time: 3
   hpBuff: 0
   numBonus: 0

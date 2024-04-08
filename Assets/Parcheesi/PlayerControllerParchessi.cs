@@ -80,6 +80,8 @@ public class PlayerControllerParchessi : MonoBehaviour
     //todo:delete
     private void Update()
     {
+       
+        if (playerStat.hp <= 0) GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.SomeOneDead);
 
         if (!isBotController)
         {
@@ -139,6 +141,7 @@ public class PlayerControllerParchessi : MonoBehaviour
 
         StartCoroutine(DelaySetnum(numRandom));
         state = State.moving;
+        currentPositionStep.ReMoveCurrentPlayerToNextTo(this);
     }
     public void DoMove()
     {
@@ -190,27 +193,31 @@ public class PlayerControllerParchessi : MonoBehaviour
     {
         if (currentPositionStep.nextStep)
         {
+            if (num == 1)       //if already have someone already on next stand
             {
-                nextPosition = currentPositionStep.nextStep.transform.position;
-                ismove = true;
-                if (currentPositionStep.nextStep.TryGetComponent(out StepEffect sff))
-                {
-                    if (sff.effectType == StepEffect.EffectType.Goblet)
-                    {
-                        //get goblet in turn bonus 
-                        if (bonusTurn > 0)
-                        {
-                            DoIdle();
-                            DoBunusTurn();
-                        }
-                        else if (num != 1)
-                        {
-                            SetNumSaving();
-                        }
-                    }
-
-                }
+                currentPositionStep.nextStep.MoveCurrentPlayerToNextTo(this);
             }
+            //
+            nextPosition = currentPositionStep.nextStep.transform.position;
+            ismove = true;
+            if (currentPositionStep.nextStep.TryGetComponent(out StepEffect sff))
+            {
+                if (sff.effectType == StepEffect.EffectType.Goblet)
+                {
+                    //get goblet in turn bonus 
+                    if (bonusTurn > 0)
+                    {
+                        DoIdle();
+                        DoBunusTurn();
+                    }
+                    else if (num != 1)
+                    {
+                        SetNumSaving();
+                    }
+                }
+
+            }
+
         }
         else
         {
@@ -230,6 +237,7 @@ public class PlayerControllerParchessi : MonoBehaviour
     private void MoveToNexStep(Vector3 nextStepPosition)
     {
 
+
         if (Vector3.Distance(transform.position, nextStepPosition) >= 0.01f)
         {
             Vector3 moveDir = nextStepPosition - transform.position;
@@ -238,6 +246,8 @@ public class PlayerControllerParchessi : MonoBehaviour
             Run();
             Vector3 targetPosition = nextStepPosition;
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+
+
         }
         else
         {
@@ -250,6 +260,11 @@ public class PlayerControllerParchessi : MonoBehaviour
             currentPositionStep = nextS;
             transform.position = nextStepPosition;
             ismove = false;
+            //if (num == 1)                //if already have someone stand here
+            //{
+            //    Debug.Log(currentPositionStep);
+            //    currentPositionStep.MoveCurrentPlayerToNextTo(this);
+            //}
             num--;
 
             if (num == 0)
@@ -269,6 +284,7 @@ public class PlayerControllerParchessi : MonoBehaviour
                 if (!currentPositionStep.GetComponent<StepEffect>())
                     GameManagerParchessi.Instance.WaitEndEffect();
             }
+
         }
 
     }
@@ -327,6 +343,12 @@ public class PlayerControllerParchessi : MonoBehaviour
         IdleAnim();
     }
 
+    public void DieAndSpawn()
+    {       
+        
+        GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.SomeOneDead);
+    }
+
     //anim
     private void Run()
     {
@@ -351,13 +373,21 @@ public class PlayerControllerParchessi : MonoBehaviour
         SetState(State.attacked);
         if (!animator.GetBool("doDeath"))
             animator.SetTrigger("doDeath");
+       
         Invoke(nameof(Revival), timeAttacked + 2);
     }
     private void Revival()
     {
+        if (playerStat.hp <= 0)
+        {
+            DieAndSpawn();
+        }
+
         SetState(State.idle);
         if (!animator.GetBool("doRevival"))
             animator.SetTrigger("doRevival");
+
+
     }
     public void DoDance()
     {
@@ -395,6 +425,7 @@ public class PlayerControllerParchessi : MonoBehaviour
     }
     public void PrepareAttackItem(bool isActive = true)
     {
+
         animator.SetBool("isPrepareAttack", isActive);
     }
     public void UseAttackItemUltimate()
@@ -405,7 +436,7 @@ public class PlayerControllerParchessi : MonoBehaviour
             animator.SetTrigger("doUltimate");
             //inventoryController.DisUseItemType();
         }
-        inventoryController.UseItemType(ItemSO.ItemType.attack,0.1f);
-        
+        inventoryController.UseItemType(ItemSO.ItemType.attack, 2f);
+
     }
 }
