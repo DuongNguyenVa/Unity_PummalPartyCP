@@ -36,10 +36,22 @@ public class ItemSO : ScriptableObject
                    player.UpdateStat(PlayerStatController.UpdateStatType.hp,hpBuff);                    
                 }
                 break;
+            case ItemType.attack:
+                {
+                    foreach (PlayerControllerParchessi playerAttacked in player.GetComponentInChildren<UntilmateAttack>().listPlayerTrget)
+                    {
+                        playerAttacked.GetAttacked();
+                        playerAttacked.UpdateStat(PlayerStatController.UpdateStatType.hp, 10);
+
+                    }
+                    player.UseAttackItemUltimate();
+
+                }
+                break;
             default:
                 break;
         }
-
+      
     }
     public static ItemType GetRamdomItem()
     {

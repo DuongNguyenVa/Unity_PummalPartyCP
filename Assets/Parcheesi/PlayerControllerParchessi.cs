@@ -313,7 +313,7 @@ public class PlayerControllerParchessi : MonoBehaviour
             return true;
         }
         return false;
-    }  
+    }
     public void UpdateStat(PlayerStatController.UpdateStatType updateStatType, int value)
     {
         playerStat.UpdateStat(updateStatType, value);
@@ -359,19 +359,6 @@ public class PlayerControllerParchessi : MonoBehaviour
         if (!animator.GetBool("doRevival"))
             animator.SetTrigger("doRevival");
     }
-
-    public void UseRocket(int numBonus)
-    {
-        bonusTurn += 1;
-        SetState(State.moving);
-        animator.SetBool("isUseRocket", true);
-        if (numrockettest != 0) num = numrockettest;
-        else
-            num = numBonus;
-        moveSpeed *= 3;
-        inventoryController.UseItemType(ItemSO.ItemType.rocket);
-    }
-
     public void DoDance()
     {
 
@@ -384,7 +371,18 @@ public class PlayerControllerParchessi : MonoBehaviour
         animator.SetBool("isWin", true);
     }
 
-
+    //use item
+    public void UseRocket(int numBonus)
+    {
+        bonusTurn += 1;
+        SetState(State.moving);
+        animator.SetBool("isUseRocket", true);
+        if (numrockettest != 0) num = numrockettest;
+        else
+            num = numBonus;
+        moveSpeed *= 3;
+        inventoryController.UseItemType(ItemSO.ItemType.rocket);
+    }
     public void UseHealthItem(ParticleSystem vfx, float time)
     {
         inventoryController.UseItemType(ItemSO.ItemType.heal, time);
@@ -394,5 +392,20 @@ public class PlayerControllerParchessi : MonoBehaviour
         vfxObj.Play();
         if (!animator.GetBool("doHeal"))
             animator.SetTrigger("doHeal");
+    }
+    public void PrepareAttackItem(bool isActive = true)
+    {
+        animator.SetBool("isPrepareAttack", isActive);
+    }
+    public void UseAttackItemUltimate()
+    {
+        PrepareAttackItem(false);
+        if (!animator.GetBool("doUltimate"))
+        {
+            animator.SetTrigger("doUltimate");
+            //inventoryController.DisUseItemType();
+        }
+        inventoryController.UseItemType(ItemSO.ItemType.attack,0.1f);
+        
     }
 }

@@ -12,7 +12,7 @@ public class InventoryCanvasManager : MonoBehaviour
     public Transform panelTrans;
 
     private List<Slot> listSlots = new List<Slot>();
-
+   
     private void Awake()
     {
         Instance = this;

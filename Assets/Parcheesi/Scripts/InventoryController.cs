@@ -23,11 +23,14 @@ public class InventoryController : MonoBehaviour
     private GameObject itemCurrentUse;
 
     private bool isCanUseItem;
+    private ItemSO.ItemType currentItemEquipType=ItemSO.ItemType.none;
+    private GameObject currentItemEquip;
+    private PlayerControllerParchessi player;
     private void Start()
     {
         HideAllObjsVisual();
         isCanUseItem = true;
-
+        player = GetComponent<PlayerControllerParchessi>();
     }
     private void Update()
     {
@@ -38,9 +41,32 @@ public class InventoryController : MonoBehaviour
             RemoveItem(currentItemChoses);
             currentItemChoses.Use(currentItemChoses.itemType);
             currentItemChoses = null;
+            currentItemEquipType = ItemSO.ItemType.none;
             //GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.SomeOneUsingItem);
 
         }
+    }
+    private void LateUpdate()
+    {
+        if (currentItemEquipType == ItemSO.ItemType.attack)
+        {
+            Vector3 mousePoint = GetPlayerPlaneMousePos();
+            Vector3 dir = new Vector3(mousePoint.x, currentItemEquip.transform.GetChild(0).position.y, mousePoint.z) - currentItemEquip.transform.GetChild(0).position;
+
+            Quaternion dirRos = Quaternion.LookRotation(dir);
+            currentItemEquip.transform.GetChild(0).rotation = Quaternion.Lerp(transform.rotation, dirRos, 1f);
+            player.transform.GetChild(0).rotation = Quaternion.Lerp(transform.rotation, dirRos, 1f);
+        }
+    }
+    public Vector3 GetPlayerPlaneMousePos()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit, 100, 1 << 6))
+        {
+            return hit.point;
+        }
+        return Vector3.zero;
+
     }
     private void HideAllObjsVisual()
     {
@@ -95,7 +121,9 @@ public class InventoryController : MonoBehaviour
                 break;
             case ItemSO.ItemType.heal:
                 itemCurrentUse.GetComponent<Animation>().Play("heal_fire");
-
+                break;
+            case ItemSO.ItemType.attack:
+                itemCurrentUse.GetComponent<Animation>().Play("ultimate_fire");
                 break;
             default:
                 break;
@@ -106,7 +134,7 @@ public class InventoryController : MonoBehaviour
     public void AfterUseItem()
     {
         HideAllObjsVisual();
-        GameManagerParchessi.Instance.GetCurrentPlayerTurn().SetState(PlayerControllerParchessi.State.readyToRoll);
+        player.SetState(PlayerControllerParchessi.State.readyToRoll);
 
     }
     public void DisUseItemType()
@@ -138,17 +166,22 @@ public class InventoryController : MonoBehaviour
     }
     public void EquipItem(ItemSO itemSO)
     {
-
+        currentItemEquipType = itemSO.itemType;
         HideAllObjsVisual();
+
+        if (currentItemChoses?.itemType == ItemSO.ItemType.attack)
+        {
+            player.PrepareAttackItem(false);
+        }
 
         if (currentItemChoses == itemSO)
         {
             currentItemChoses = null;
-            GameManagerParchessi.Instance.GetCurrentPlayerTurn().SetState(PlayerControllerParchessi.State.readyToRoll);
+            player.SetState(PlayerControllerParchessi.State.readyToRoll);
         }
         else
         {
-            GameManagerParchessi.Instance.GetCurrentPlayerTurn().SetState(PlayerControllerParchessi.State.usingItem);
+            player.SetState(PlayerControllerParchessi.State.usingItem);
             SetCurrentItemChoses(itemSO);
             switch (itemSO.itemType)
             {
@@ -159,6 +192,9 @@ public class InventoryController : MonoBehaviour
                     break;
                 case ItemSO.ItemType.heal:
                     EquipHealItem();
+                    break;
+                case ItemSO.ItemType.attack:
+                    EquipAttackItem();
                     break;
                 default:
                     break;
@@ -174,9 +210,15 @@ public class InventoryController : MonoBehaviour
     }
     private void EquipRocketItem()
     {
-        GameObject currentItemEquip = GetVisualObjByType(ItemSO.ItemType.rocket);
+        currentItemEquip = GetVisualObjByType(ItemSO.ItemType.rocket);
         currentItemEquip.SetActive(true);
         currentItemEquip.GetComponent<Animation>().Play("rocket_prepare");
     }
+    private void EquipAttackItem()
+    {
+        currentItemEquip = GetVisualObjByType(ItemSO.ItemType.attack);
+        currentItemEquip.SetActive(true);
+        player.PrepareAttackItem();
 
+    }
 }
