@@ -21,7 +21,8 @@ public class StepManager : MonoBehaviour
     private StepEffect.EffectType stepEffectType;
 
     Step stepForNewChest;
-
+    public List<Step> spawnBases = new List<Step>();
+    Transform spawnParent;
     private void Awake()
     {
         Instance = this;
@@ -31,7 +32,11 @@ public class StepManager : MonoBehaviour
         treaserChestVisual = Instantiate(pfTreaserChestVisual, transform);
         treaserChestVisual.SetActive(false);
         CameraManager.Instance.SetTargetForEventCam(treaserChestVisual.transform);
-        //SpawnNewTeasureChest();
+        spawnParent = transform.Find("Spawns");
+        foreach (Step spB in spawnParent.GetComponentsInChildren<Step>())
+        {
+            spawnBases.Add(spB);
+        }
     }
     private void Update()
     {
@@ -171,14 +176,20 @@ public class StepManager : MonoBehaviour
         {
             if (st.TryGetComponent(out StepEffect sEff))
             {
-                if (sEff.effectType != StepEffect.EffectType.Goblet)
+                if (sEff.effectType != StepEffect.EffectType.Goblet&& sEff.effectType != StepEffect.EffectType.SpawnBase) //not use gob or spawnbase
                     stepsCanSpawnChest.Add(st);
             }
             else
                 stepsCanSpawnChest.Add(st);
 
         }
+       
+    }
 
+    public Step GetSpawnBaseAvalable()
+    {
+        Step st = spawnBases[0];
+        return st;
     }
 
 }

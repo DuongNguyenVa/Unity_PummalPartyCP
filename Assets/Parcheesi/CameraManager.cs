@@ -71,7 +71,7 @@ public class CameraManager : MonoBehaviour
     public void FocusPlayer(Transform target)
     {
         playerCam.Follow = target;
-        playerCam.LookAt = target;
+        //playerCam.LookAt = target;
 
         playerCam.enabled=true;
         overViewCam.enabled = false;

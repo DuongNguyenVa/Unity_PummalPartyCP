@@ -42,7 +42,6 @@ public class ItemSO : ScriptableObject
                     {
                         playerAttacked.GetAttacked();
                         playerAttacked.UpdateStat(PlayerStatController.UpdateStatType.hp, -100);
-
                     }
                     player.UseAttackItemUltimate();
 

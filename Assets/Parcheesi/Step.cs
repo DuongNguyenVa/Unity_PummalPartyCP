@@ -102,17 +102,29 @@ public class Step : MonoBehaviour
             item.gameObject.SetActive(isShow);
         }
     }
-    public void MoveCurrentPlayerToNextTo(PlayerControllerParchessi pl)
+    public void CheckAndMoveCurrentPlayerToNextTo(PlayerControllerParchessi pl, bool isThisSpawnBase = false)
     {
-        if (currentPositionCanStandused < 0) currentPositionCanStandused = 0; //test fix
-        if (currentPositionCanStandused != 0)
+        if (isThisSpawnBase)
         {
-            DicTposAsPlayerAlready.Add(currentPositionCanStandused, DicTposAsPlayerAlready[0]);
-            DicTposAsPlayerAlready[0].transform.position = arrayPositionCanStand[currentPositionCanStandused].position;
-            DicTposAsPlayerAlready[0] = null;
+            if (currentPositionCanStandused < 1) currentPositionCanStandused = 1; //test fix
+
+            DicTposAsPlayerAlready.Add(currentPositionCanStandused, pl);
+            pl.transform.position = arrayPositionCanStand[currentPositionCanStandused].position;
+            currentPositionCanStandused += 1;
         }
-        DicTposAsPlayerAlready[0] = pl;
-        currentPositionCanStandused += 1;
+        else
+        {
+            if (currentPositionCanStandused < 0) currentPositionCanStandused = 0; //test fix
+            if (currentPositionCanStandused != 0)
+            {
+                DicTposAsPlayerAlready.Add(currentPositionCanStandused, DicTposAsPlayerAlready[0]);
+                DicTposAsPlayerAlready[0].transform.position = arrayPositionCanStand[currentPositionCanStandused].position;
+                DicTposAsPlayerAlready[0] = null;
+            }
+            DicTposAsPlayerAlready[0] = pl;
+            currentPositionCanStandused += 1;
+        }
+
     }
     public void ReMoveCurrentPlayerToNextTo(PlayerControllerParchessi pl)
     {
@@ -120,6 +132,7 @@ public class Step : MonoBehaviour
         DicTposAsPlayerAlready.Remove(index);
         ResetDicTposAsPlayerAlready();
         currentPositionCanStandused--;
+        currentPositionCanStandused = currentPositionCanStandused < 0 ? 0 : currentPositionCanStandused;
     }
     private void ResetDicTposAsPlayerAlready()
     {
@@ -128,7 +141,7 @@ public class Step : MonoBehaviour
         int index = 0;
         foreach (PlayerControllerParchessi pl in listPl)
         {
-            DicTposAsPlayerAlready.Add(index,pl);
+            DicTposAsPlayerAlready.Add(index, pl);
             index++;
         }
     }

@@ -38,18 +38,18 @@ public class PlayerStatController : MonoBehaviour
     }
 
     private void UpdateHp(int h)
-    {
-        
+    {        
         hp = Mathf.Clamp(hp + h, 0, maxHeal); 
         UpdateStat();
-
+        if (hp <= 0)//dead
+        {
+            GameManagerParchessi.Instance.SetListPlayerSpawn(GetComponent<PlayerControllerParchessi>());
+        }
     }
     private void AddGoblet(int g)
     {
-        gobscount += g;
-       
-        CanvasManager.Instance.UpdatePlayerStat(GetComponent<PlayerControllerParchessi>(), keys, hp, hp / maxHeal, gobscount-1);
-      
+        gobscount += g;       
+        CanvasManager.Instance.UpdatePlayerStat(GetComponent<PlayerControllerParchessi>(), keys, hp, hp / maxHeal, gobscount-1);      
     }
   
     public void UpdateStat(UpdateStatType updateStatType, int value)

@@ -11,7 +11,7 @@ public class GameManagerParchessi : MonoBehaviour
     {
         none, BeforStartTurn, ChestSpawn, StartTurn, WaitSomeoneEnd, NextOrder, EndTurn, DarkSpace, LightSpace, SomeOneChosing,
         SomeOneRoll, SomeOneMove, SomeOneGetEffect, SomeOneGetGoblrtStillMoving, WaitCameraMoving, EndOrder, SomeOneUsingItem,
-        SomeOneWin, SomeOneDead
+        SomeOneWin, SomeOneDead, SpawnPlayer
     }
     private StateGameParchessi state;
 
@@ -42,6 +42,10 @@ public class GameManagerParchessi : MonoBehaviour
 
     public ParticleSystem vfxWinOBJ;
 
+    private List<PlayerControllerParchessi> listPlayerRepawn = new List<PlayerControllerParchessi>();
+
+    public GameObject pfDice;
+    private GameObject dice;
     private void Awake()
     {
         Instance = this;
@@ -63,9 +67,32 @@ public class GameManagerParchessi : MonoBehaviour
         currentOrder = 0;
         //todo_test: set player 1st
         SetState(StateGameParchessi.BeforStartTurn);
-
+        dice = Instantiate(pfDice, transform);
+        dice.transform.GetChild(0).gameObject.SetActive(false);
     }
 
+    public void ActiveDice(Vector3 pos)
+    {
+        if (!dice.transform.GetChild(0).gameObject.activeSelf)
+        {
+            dice.transform.GetChild(0).gameObject.SetActive(true);
+            dice.GetComponentInChildren<Rigidbody>().isKinematic = true;
+            dice.GetComponentInChildren<Animation>().Play();
+            dice.transform.position = pos;
+        }
+    }
+    public void FireDice()
+    {
+        dice.GetComponentInChildren<Animation>().Play("dice_fire");
+        dice.GetComponentInChildren<Rigidbody>().isKinematic = false;
+        dice.GetComponentInChildren<Rigidbody>().AddForce(Vector3.forward*500f,ForceMode.Force);
+
+        Invoke(nameof(DelayHideDice),5f);
+        void DelayHideDice()
+        {
+            //dice.transform.GetChild(0).gameObject.SetActive(false);
+        }
+    }
     private void Update()
     {
         if (RunDelayTime()) return;
@@ -77,7 +104,7 @@ public class GameManagerParchessi : MonoBehaviour
                     SetCurrentPlayerTurn(0);
                     InventoryCanvasManager.Instance.LoadInventoryVisual(currentPlayerInTurn.GetComponent<InventoryController>().items);
                     state = StateGameParchessi.ChestSpawn;
-                    
+
                 }
                 break;
             case StateGameParchessi.ChestSpawn:
@@ -93,7 +120,7 @@ public class GameManagerParchessi : MonoBehaviour
                 {
                     if (!currentPlayerInTurn.CheckNumSaving())
                     {
-                        CanvasManager.Instance.PostNoti(currentPlayerInTurn.name+ "\' Turn",3f);
+                        CanvasManager.Instance.PostNoti(currentPlayerInTurn.name + "\' Turn", 3f);
                     }
                     CameraManager.Instance.FocusPlayer(currentPlayerInTurn.transform);
                     state = StateGameParchessi.SomeOneRoll;
@@ -102,7 +129,6 @@ public class GameManagerParchessi : MonoBehaviour
                 break;
             case StateGameParchessi.SomeOneRoll:
                 {
-
                     if (currentPlayerInTurn.isBotController)
                     {
                         OnGameStateChangeTo?.Invoke(state);
@@ -112,8 +138,8 @@ public class GameManagerParchessi : MonoBehaviour
                     {
                         if (!currentPlayerInTurn.CheckNumSaving(false))
                         {//todo: player and not have numsaving
-                            currentPlayerInTurn.SetState(PlayerControllerParchessi.State.readyToRoll);    
-                             state = StateGameParchessi.none;
+                            currentPlayerInTurn.SetState(PlayerControllerParchessi.State.readyToRoll);
+                            state = StateGameParchessi.none;
 
                         }
                     }
@@ -161,6 +187,24 @@ public class GameManagerParchessi : MonoBehaviour
             case StateGameParchessi.SomeOneGetEffect:
                 {
 
+                }
+                break;
+            case StateGameParchessi.SomeOneDead:
+                {
+                }
+                break;
+            case StateGameParchessi.SpawnPlayer:
+                {
+                    foreach (PlayerControllerParchessi pl in listPlayerRepawn)
+                    {
+                        Step spawnbase = StepManager.Instance.GetSpawnBaseAvalable();
+                        pl.currentPositionStep.ReMoveCurrentPlayerToNextTo(pl);
+                        pl.currentPositionStep = spawnbase;
+                        pl.UpdateStat(PlayerStatController.UpdateStatType.hp, 100);
+                        spawnbase.CheckAndMoveCurrentPlayerToNextTo(pl, true);
+                    }
+                    listPlayerRepawn.Clear();
+                    state = StateGameParchessi.SomeOneRoll;
                 }
                 break;
             case StateGameParchessi.SomeOneWin:
@@ -309,14 +353,14 @@ public class GameManagerParchessi : MonoBehaviour
     public void WaitEndEffect(float effTime = 0, bool isGetGoblet = false, bool isStillMove = false)
     {
         //EndOrder();
-     
+
         if (isGetGoblet)
         {
             isChestAlready = false;
             if (isStillMove)
             {
                 state = StateGameParchessi.SomeOneGetGoblrtStillMoving;
-                StartCoroutine(SpawnChestDelay());               
+                StartCoroutine(SpawnChestDelay());
                 return;
             }
             //else
@@ -337,12 +381,27 @@ public class GameManagerParchessi : MonoBehaviour
         IEnumerator End()
         {
             yield return new WaitForSeconds(effTime);
-            
+
             state = StateGameParchessi.EndOrder;
 
         }
     }
-    
+
+    public void SetListPlayerSpawn(PlayerControllerParchessi pl)
+    {
+        if (!pl) listPlayerRepawn.Clear();
+        else
+        {
+            if (!listPlayerRepawn.Find(x => x == pl))
+            {
+                SetState(StateGameParchessi.SomeOneDead);
+                listPlayerRepawn.Add(pl);
+            }
+        }
+    }
+
+
+    //delay time custom
     private void SetDelayTime(float t)
     {
         timeDelay = t;

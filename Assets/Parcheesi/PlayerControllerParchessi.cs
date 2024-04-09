@@ -18,6 +18,7 @@ public class PlayerControllerParchessi : MonoBehaviour
     public int numTest = 0;
 
     public TextMeshPro diceResultText3D;
+    public Transform dicePosition;
 
     private bool isDiceResultText3DAnim;
 
@@ -80,8 +81,11 @@ public class PlayerControllerParchessi : MonoBehaviour
     //todo:delete
     private void Update()
     {
-       
-        if (playerStat.hp <= 0) GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.SomeOneDead);
+
+        if (state == State.readyToRoll)
+        {
+            GameManagerParchessi.Instance.ActiveDice(dicePosition.position);
+        }
 
         if (!isBotController)
         {
@@ -105,7 +109,7 @@ public class PlayerControllerParchessi : MonoBehaviour
     {
         if (isDiceResultText3DAnim)
         {
-            Vector3 lookPoint = 2 * diceResultText3D.transform.position - Camera.main.transform.position; //invert lok point
+            Vector3 lookPoint = 2 * diceResultText3D.transform.position - Camera.main.transform.position; //invert look point
 
             diceResultText3D.transform.LookAt(lookPoint);
             DiceResultText3DAnim();
@@ -137,6 +141,7 @@ public class PlayerControllerParchessi : MonoBehaviour
             isDiceResultText3DAnim = true;
             //diceController.gameObject.SetActive(true);
             animator.SetTrigger("doDice");
+            GameManagerParchessi.Instance.FireDice();
         }
 
         StartCoroutine(DelaySetnum(numRandom));
@@ -195,7 +200,7 @@ public class PlayerControllerParchessi : MonoBehaviour
         {
             if (num == 1)       //if already have someone already on next stand
             {
-                currentPositionStep.nextStep.MoveCurrentPlayerToNextTo(this);
+                currentPositionStep.nextStep.CheckAndMoveCurrentPlayerToNextTo(this);
             }
             //
             nextPosition = currentPositionStep.nextStep.transform.position;
@@ -343,12 +348,6 @@ public class PlayerControllerParchessi : MonoBehaviour
         IdleAnim();
     }
 
-    public void DieAndSpawn()
-    {       
-        
-        GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.SomeOneDead);
-    }
-
     //anim
     private void Run()
     {
@@ -378,11 +377,14 @@ public class PlayerControllerParchessi : MonoBehaviour
     }
     private void Revival()
     {
-        if (playerStat.hp <= 0)
-        {
-            DieAndSpawn();
+        if (GameManagerParchessi.Instance.GetState() ==GameManagerParchessi.StateGameParchessi.SomeOneDead)
+        {           
+            GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.SpawnPlayer);
         }
-
+            //Spawn();
+           
+            //UpdateStat(PlayerStatController.UpdateStatType.hp, 100);
+            //GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.SomeOneRoll);
         SetState(State.idle);
         if (!animator.GetBool("doRevival"))
             animator.SetTrigger("doRevival");
@@ -412,6 +414,7 @@ public class PlayerControllerParchessi : MonoBehaviour
             num = numBonus;
         moveSpeed *= 3;
         inventoryController.UseItemType(ItemSO.ItemType.rocket);
+        currentPositionStep.ReMoveCurrentPlayerToNextTo(this);
     }
     public void UseHealthItem(ParticleSystem vfx, float time)
     {

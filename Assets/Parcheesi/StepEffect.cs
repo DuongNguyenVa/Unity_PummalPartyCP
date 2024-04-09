@@ -13,6 +13,7 @@ public class StepEffect : MonoBehaviour
         Attacked,
         Gift,
         Goblet,
+        SpawnBase
 
     }
     public EffectType effectType;
