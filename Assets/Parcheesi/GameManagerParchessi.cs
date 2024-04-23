@@ -76,22 +76,22 @@ public class GameManagerParchessi : MonoBehaviour
         if (!dice.transform.GetChild(0).gameObject.activeSelf)
         {
             dice.transform.GetChild(0).gameObject.SetActive(true);
-            dice.GetComponentInChildren<Rigidbody>().isKinematic = true;
+            dice.transform.GetChild(0).transform.localPosition = Vector3.zero;
             dice.GetComponentInChildren<Animation>().Play();
             dice.transform.position = pos;
+        }
+    }
+    public void DisActiveDice()
+    {
+        if (dice.transform.GetChild(0).gameObject.activeSelf)
+        {
+            dice.transform.GetChild(0).gameObject.SetActive(false);
         }
     }
     public void FireDice()
     {
         dice.GetComponentInChildren<Animation>().Play("dice_fire");
-        dice.GetComponentInChildren<Rigidbody>().isKinematic = false;
-        dice.GetComponentInChildren<Rigidbody>().AddForce(Vector3.forward*500f,ForceMode.Force);
-
-        Invoke(nameof(DelayHideDice),5f);
-        void DelayHideDice()
-        {
-            //dice.transform.GetChild(0).gameObject.SetActive(false);
-        }
+        DisActiveDice();
     }
     private void Update()
     {
@@ -143,6 +143,7 @@ public class GameManagerParchessi : MonoBehaviour
 
                         }
                     }
+
                 }
                 break;
             case StateGameParchessi.SomeOneMove:

@@ -81,17 +81,11 @@ public class PlayerControllerParchessi : MonoBehaviour
     //todo:delete
     private void Update()
     {
-
-        if (state == State.readyToRoll)
-        {
-            GameManagerParchessi.Instance.ActiveDice(dicePosition.position);
-        }
+        if (GameManagerParchessi.Instance.GetCurrentPlayerTurn() != this) return;
 
         if (!isBotController)
         {
-            if (GameManagerParchessi.Instance.GetCurrentPlayerTurn() != this) return;
 
-            else
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 //todo:delete
@@ -102,6 +96,10 @@ public class PlayerControllerParchessi : MonoBehaviour
                 }
             }
         }
+        if (state == State.readyToRoll)
+            GameManagerParchessi.Instance.ActiveDice(dicePosition.position);
+        else
+            GameManagerParchessi.Instance.DisActiveDice();
         DoMove();
 
     }
@@ -372,19 +370,19 @@ public class PlayerControllerParchessi : MonoBehaviour
         SetState(State.attacked);
         if (!animator.GetBool("doDeath"))
             animator.SetTrigger("doDeath");
-       
+
         Invoke(nameof(Revival), timeAttacked + 2);
     }
     private void Revival()
     {
-        if (GameManagerParchessi.Instance.GetState() ==GameManagerParchessi.StateGameParchessi.SomeOneDead)
-        {           
+        if (GameManagerParchessi.Instance.GetState() == GameManagerParchessi.StateGameParchessi.SomeOneDead)
+        {
             GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.SpawnPlayer);
         }
-            //Spawn();
-           
-            //UpdateStat(PlayerStatController.UpdateStatType.hp, 100);
-            //GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.SomeOneRoll);
+        //Spawn();
+
+        //UpdateStat(PlayerStatController.UpdateStatType.hp, 100);
+        //GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.SomeOneRoll);
         SetState(State.idle);
         if (!animator.GetBool("doRevival"))
             animator.SetTrigger("doRevival");

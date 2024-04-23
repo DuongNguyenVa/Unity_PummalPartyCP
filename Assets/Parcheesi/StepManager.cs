@@ -152,7 +152,6 @@ public class StepManager : MonoBehaviour
         {
             RemoveStepsCantSpawnChest(st, countStep + 1);
         }
-        Debug.Log(stepsCanSpawnChest.Count);
     }
     void RemoveStepsCantSpawnChest(Step st, int countStep)
     {
