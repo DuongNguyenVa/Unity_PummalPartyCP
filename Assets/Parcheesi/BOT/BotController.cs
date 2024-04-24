@@ -100,7 +100,8 @@ public class BotController : MonoBehaviour
 
     private void ChoosingNextWay()
     {
-        List<Step> listStepCanUSe = GetComponent<NavPath>().GetRightWay();
+        List<Step> listStepCanUSe;
+        listStepCanUSe = GetComponent<NavPath>().GetRightWay();
         for (int i = 0; i < listStepCanUSe.Count; i++)
         {
             if (listStepCanUSe[i] == player.currentPositionStep)

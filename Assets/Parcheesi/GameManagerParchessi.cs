@@ -2,11 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-
 public class GameManagerParchessi : MonoBehaviour
 {
     public static GameManagerParchessi Instance;
+    public SOGameManager soGameManager;
     public enum StateGameParchessi
     {
         none, BeforStartTurn, ChestSpawn, StartTurn, WaitSomeoneEnd, NextOrder, EndTurn, DarkSpace, LightSpace, SomeOneChosing,

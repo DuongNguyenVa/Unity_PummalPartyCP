@@ -131,7 +131,7 @@ public class StepEffect : MonoBehaviour
         StepManager.Instance.AsSomeGetGoblet();
         player.FaceToST(Camera.main.transform.position);
         GameManagerParchessi.Instance.GetCurrentPlayerTurn().UpdateStat(PlayerStatController.UpdateStatType.gob, +1);
-        if (player.GetComponent<PlayerStatController>().gobscount == 100)
+        if (player.GetComponent<PlayerStatController>().gobscount == GameManagerParchessi.Instance.soGameManager.gobletNumToWin)
         {
             player.Win();
             //GameManagerParchessi.Instance.StopAllCoroutines();

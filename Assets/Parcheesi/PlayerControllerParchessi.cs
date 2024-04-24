@@ -14,8 +14,8 @@ public class PlayerControllerParchessi : MonoBehaviour
     public float moveSpeed = 5f;
     public ParticleSystem vfxRun;
 
-    public int numrockettest = 10;
-    public int numTest = 0;
+    public int numrockettest = 10; //test num
+    public int numTest = 0; //test num
 
     public TextMeshPro diceResultText3D;
     public Transform dicePosition;

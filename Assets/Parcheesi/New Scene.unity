@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.31283036, g: 0.2934434, b: 0.51393837, a: 1}
+  m_IndirectSpecularColor: {r: 0.31314224, g: 0.29382282, b: 0.51416165, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3263,7 +3263,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8247913579916842561, guid: 5f8ca85cffa56cb4f8a341411de97668, type: 3}
       propertyPath: numTest
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8247913579916842561, guid: 5f8ca85cffa56cb4f8a341411de97668, type: 3}
       propertyPath: moveSpeed
@@ -4955,7 +4955,7 @@ PrefabInstance:
       objectReference: {fileID: 1343508923}
     - target: {fileID: 9129248302984671443, guid: 0eb0d2596e0459d4e9d712ccc19817cb, type: 3}
       propertyPath: numTest
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9129248302984671443, guid: 0eb0d2596e0459d4e9d712ccc19817cb, type: 3}
       propertyPath: moveSpeed
@@ -11506,7 +11506,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 3df813823d88a544ca08db45f8cc5cdf, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.116
+  m_Volume: 0.036
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -12306,6 +12306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ade9a3f057b9c944a180bb930874f5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soGameManager: {fileID: 11400000, guid: 141632fe25e69c44d997918cac2de45c, type: 2}
   pfTreaserChest: {fileID: 1524898951222367610, guid: 46bb8b00a78dda54a858207a32ee617d, type: 3}
   stepsCanSpawnChest: []
   listturnPlayOrder: []
