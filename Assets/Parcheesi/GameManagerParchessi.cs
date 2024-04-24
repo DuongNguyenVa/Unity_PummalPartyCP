@@ -9,7 +9,7 @@ public class GameManagerParchessi : MonoBehaviour
     public enum StateGameParchessi
     {
         none, BeforStartTurn, ChestSpawn, StartTurn, WaitSomeoneEnd, NextOrder, EndTurn, DarkSpace, LightSpace, SomeOneChosing,
-        SomeOneRoll, SomeOneMove, SomeOneGetEffect, SomeOneGetGoblrtStillMoving, WaitCameraMoving, EndOrder, SomeOneUsingItem,
+        SomeOneRoll, SomeOneMove, SomeOneGetEffect, SomeOneGetGoblrtStillMoving, WaitCameraMoving, EndOrder, SomeOneEquipItem, SomeOneUsingItem,
         SomeOneWin, SomeOneDead, SpawnPlayer
     }
     private StateGameParchessi state;
@@ -70,22 +70,19 @@ public class GameManagerParchessi : MonoBehaviour
         dice.transform.GetChild(0).gameObject.SetActive(false);
     }
 
-    public void ActiveDice(Vector3 pos)
+    public void ActiveDice()
     {
-        if (!dice.transform.GetChild(0).gameObject.activeSelf)
-        {
+        Vector3 pos = currentPlayerInTurn.transform.position;
+
+            dice.transform.position = pos;
             dice.transform.GetChild(0).gameObject.SetActive(true);
             dice.transform.GetChild(0).transform.localPosition = Vector3.zero;
             dice.GetComponentInChildren<Animation>().Play();
-            dice.transform.position = pos;
-        }
+        
     }
     public void DisActiveDice()
     {
-        if (dice.transform.GetChild(0).gameObject.activeSelf)
-        {
-            dice.transform.GetChild(0).gameObject.SetActive(false);
-        }
+        dice.transform.GetChild(0).gameObject.SetActive(false);
     }
     public void FireDice()
     {
@@ -128,6 +125,11 @@ public class GameManagerParchessi : MonoBehaviour
                 break;
             case StateGameParchessi.SomeOneRoll:
                 {
+                    if (!currentPlayerInTurn.CheckNumSaving())
+                    {
+                        ActiveDice();
+                    }
+
                     if (currentPlayerInTurn.isBotController)
                     {
                         OnGameStateChangeTo?.Invoke(state);
@@ -183,7 +185,7 @@ public class GameManagerParchessi : MonoBehaviour
                     }
                 }
                 break;
-
+           
             case StateGameParchessi.SomeOneGetEffect:
                 {
 

@@ -158,6 +158,10 @@ PrefabInstance:
       propertyPath: m_Icon
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5677389629171040623, guid: 8a0e443cc46da4e458704559848c222f, type: 3}
+      propertyPath: effectType
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7270172702734173053, guid: 8a0e443cc46da4e458704559848c222f, type: 3}
       propertyPath: m_Icon
       value: 

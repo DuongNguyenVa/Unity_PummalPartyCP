@@ -96,10 +96,9 @@ public class PlayerControllerParchessi : MonoBehaviour
                 }
             }
         }
-        if (state == State.readyToRoll)
-            GameManagerParchessi.Instance.ActiveDice(dicePosition.position);
-        else
-            GameManagerParchessi.Instance.DisActiveDice();
+        //if (state == State.readyToRoll)
+        //else
+        //    GameManagerParchessi.Instance.DisActiveDice();
         DoMove();
 
     }

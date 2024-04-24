@@ -169,6 +169,7 @@ public class InventoryController : MonoBehaviour
     }
     public void EquipItem(ItemSO itemSO)
     {
+        
         HideAllObjsVisual();
 
         if (currentItemChoses?.itemType == ItemSO.ItemType.attack) //disable anim prepare (if have)
@@ -180,11 +181,14 @@ public class InventoryController : MonoBehaviour
         {
             currentItemChoses = null;
             player.SetState(PlayerControllerParchessi.State.readyToRoll);
+            GameManagerParchessi.Instance.ActiveDice();
+
         }
         else
         {
             player.SetState(PlayerControllerParchessi.State.usingItem);
             SetCurrentItemChoses(itemSO);
+            GameManagerParchessi.Instance.DisActiveDice();
             switch (itemSO.itemType)
             {
                 case ItemSO.ItemType.none:
