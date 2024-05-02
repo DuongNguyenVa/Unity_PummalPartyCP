@@ -344,7 +344,10 @@ public class PlayerControllerParchessi : MonoBehaviour
         ismove = false;
         IdleAnim();
     }
-
+    public PlayerStatController GetStat()
+    {
+        return playerStat;
+    }
     //anim
     private void Run()
     {

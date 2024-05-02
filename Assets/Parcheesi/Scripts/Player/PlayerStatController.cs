@@ -30,9 +30,9 @@ public class PlayerStatController : MonoBehaviour
             keys = 0;
         else keys += k;
 
-
         if (k < 0)
         {
+            Debug.Log(k);
             SpawnKeyEx.Istaince.SpawnIntKeysUsed(Mathf.Abs(k), GameManagerParchessi.Instance.GetCurrentPlayerTurn().transform);
         }
     }

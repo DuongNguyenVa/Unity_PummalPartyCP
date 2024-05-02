@@ -74,11 +74,11 @@ public class GameManagerParchessi : MonoBehaviour
     {
         Vector3 pos = currentPlayerInTurn.transform.position;
 
-            dice.transform.position = pos;
-            dice.transform.GetChild(0).gameObject.SetActive(true);
-            dice.transform.GetChild(0).transform.localPosition = Vector3.zero;
-            dice.GetComponentInChildren<Animation>().Play();
-        
+        dice.transform.position = pos;
+        dice.transform.GetChild(0).gameObject.SetActive(true);
+        dice.transform.GetChild(0).transform.localPosition = Vector3.zero;
+        dice.GetComponentInChildren<Animation>().Play();
+
     }
     public void DisActiveDice()
     {
@@ -97,6 +97,14 @@ public class GameManagerParchessi : MonoBehaviour
         {
             case StateGameParchessi.BeforStartTurn:
                 {
+                    //set spawn step for all player
+                    Step spawnStep = StepManager.Instance.GetSpawnBaseAvalable();
+                    for (int i = 0; i < listturnPlayOrder.Count; i++)
+                    {
+                        listturnPlayOrder[i].currentPositionStep = spawnStep;
+                        listturnPlayOrder[i].transform.position = spawnStep.arrayPositionCanStand[i].position;
+                    }
+
                     SetCurrentPlayerTurn(0);
                     InventoryCanvasManager.Instance.LoadInventoryVisual(currentPlayerInTurn.GetComponent<InventoryController>().items);
                     state = StateGameParchessi.ChestSpawn;
@@ -185,7 +193,7 @@ public class GameManagerParchessi : MonoBehaviour
                     }
                 }
                 break;
-           
+
             case StateGameParchessi.SomeOneGetEffect:
                 {
 
@@ -370,11 +378,19 @@ public class GameManagerParchessi : MonoBehaviour
             //    StartCoroutine(SpawnChestDelay());
             //    return;
             //}
+
+
             IEnumerator SpawnChestDelay()
             {
                 yield return new WaitForSeconds(effTime);
                 state = StateGameParchessi.ChestSpawn;
             }
+        }
+        //if player ignore chest
+        else if (isStillMove)
+        {
+            state = StateGameParchessi.SomeOneRoll;          
+            return;
         }
         else
             state = StateGameParchessi.SomeOneGetEffect;
@@ -387,6 +403,11 @@ public class GameManagerParchessi : MonoBehaviour
             state = StateGameParchessi.EndOrder;
 
         }
+        //IEnumerator SpawnChestDelay()
+        //{
+        //    yield return new WaitForSeconds(effTime);
+        //    state = StateGameParchessi.ChestSpawn;
+        //}
     }
 
     public void SetListPlayerSpawn(PlayerControllerParchessi pl)

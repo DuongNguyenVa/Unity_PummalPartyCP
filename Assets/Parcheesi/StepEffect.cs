@@ -110,7 +110,11 @@ public class StepEffect : MonoBehaviour
 
                 break;
             case EffectType.Goblet:
-                GotGoblet();
+                {
+                    ;
+                ShowNotiOpenChest(player.GetComponent<PlayerStatController>().keys >=40);
+
+                }
                 break;
             default:
                 break;
@@ -124,6 +128,10 @@ public class StepEffect : MonoBehaviour
         player.GetComponent<InventoryController>().AddItem(ItemSO.GetRamdomItem());
     }
 
+    private void ShowNotiOpenChest(bool canBeOpen)
+    {
+        CanvasManager.Instance.ToggleOpenChestNoti(true, canBeOpen);
+    }
     public void GotGoblet()
     {
         PlayerControllerParchessi player = GameManagerParchessi.Instance.GetCurrentPlayerTurn();
