@@ -110,11 +110,9 @@ public class StepEffect : MonoBehaviour
 
                 break;
             case EffectType.Goblet:
-                {
-                    ;
-                ShowNotiOpenChest(player.GetComponent<PlayerStatController>().keys >=40);
 
-                }
+                ShowNotiOpenChest(player, player.GetComponent<PlayerStatController>().keys >= GameManagerParchessi.Instance.soGameManager.keyNeedForOpenChest);
+
                 break;
             default:
                 break;
@@ -128,38 +126,16 @@ public class StepEffect : MonoBehaviour
         player.GetComponent<InventoryController>().AddItem(ItemSO.GetRamdomItem());
     }
 
-    private void ShowNotiOpenChest(bool canBeOpen)
+    private void ShowNotiOpenChest(PlayerControllerParchessi pl, bool canBeOpen)
     {
-        CanvasManager.Instance.ToggleOpenChestNoti(true, canBeOpen);
-    }
-    public void GotGoblet()
-    {
-        PlayerControllerParchessi player = GameManagerParchessi.Instance.GetCurrentPlayerTurn();
-        //GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.DarkSpace);
-        StepManager.Instance.AsSomeGetGoblet();
-        player.FaceToST(Camera.main.transform.position);
-        GameManagerParchessi.Instance.GetCurrentPlayerTurn().UpdateStat(PlayerStatController.UpdateStatType.gob, +1);
-        if (player.GetComponent<PlayerStatController>().gobscount == GameManagerParchessi.Instance.soGameManager.gobletNumToWin)
+        if (pl.isBotController)
         {
-            player.Win();
-            //GameManagerParchessi.Instance.StopAllCoroutines();
-            GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.SomeOneWin);
-            CanvasManager.Instance.PostNoti(player.name+" Win", 1000f);
+            pl.GetComponent<BotController>().SetState(BotController.State.CheckOpenChest);
         }
         else
-        {
-            player.DoDance();
-            if (player.CheckNumSaving())
-            {
-                GameManagerParchessi.Instance.WaitEndEffect(timeEffect, true, true);
-                Debug.Log("Got goblet but still move");
-            }
-            else
-            {
-                GameManagerParchessi.Instance.WaitEndEffect(timeEffect, true);
-            }
-        }
+            CanvasManager.Instance.ToggleOpenChestNoti(true, canBeOpen);
     }
+
     public void SetParams(UpdateKeyParams keyParam, UpdateHpParams hpParam, AttackedParams attackedParam)
     {
         updateKey = keyParam;

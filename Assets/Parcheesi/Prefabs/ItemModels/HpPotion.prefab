@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1962062351818493908}
   - component: {fileID: 1438984710830098150}
+  - component: {fileID: 6655293769572596550}
   m_Layer: 0
   m_Name: HpPotion
   m_TagString: Untagged
@@ -49,6 +50,18 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &6655293769572596550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604562695430296200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a50c5757be120ab46b8ec1a42ff6a99e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5991811258438987987
 PrefabInstance:
   m_ObjectHideFlags: 0

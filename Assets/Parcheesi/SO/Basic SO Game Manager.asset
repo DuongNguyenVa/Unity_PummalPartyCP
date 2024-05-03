@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Basic SO Game Manager
   m_EditorClassIdentifier: 
   gobletNumToWin: 3
+  keyNeedForOpenChest: 20

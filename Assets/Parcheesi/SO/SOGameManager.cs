@@ -5,4 +5,5 @@ using UnityEngine;
 public class SOGameManager:ScriptableObject
 {
     public int gobletNumToWin;
+    public int keyNeedForOpenChest;
 }

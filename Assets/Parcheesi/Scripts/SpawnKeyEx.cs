@@ -55,7 +55,7 @@ public class SpawnKeyEx : MonoBehaviour
         }
     }
 
-    public void SpawnIntKeysUsed(int kc, Transform owerTrans=null) //16
+    public void SpawnIntKeysUsed(int kc, PlayerControllerParchessi pl=null) //16
     {
         int indexElse =kc- keyVisualCanUse.Count;
         if (indexElse > 0)
@@ -69,10 +69,12 @@ public class SpawnKeyEx : MonoBehaviour
         int kcs=0;
         for (int i = 0; i < kc; i++)
         {
-            if (owerTrans)
-            keyVisualCanUse[i].transform.position = owerTrans.position;
+            if (pl)
+            keyVisualCanUse[i].transform.position = pl.transform.position;
             
             keyVisualCanUse[i].SetActive(true);
+            keyVisualCanUse[i].GetComponent<KeyController>().SetOwner(pl);
+
             keyVisualCanUse[i].GetComponentInChildren<Animation>().Play("keydrop");
             kcs++;
         }

@@ -72,8 +72,8 @@ public class GameManagerParchessi : MonoBehaviour
 
     public void ActiveDice()
     {
-        Vector3 pos = currentPlayerInTurn.transform.position;
-
+        //Vector3 pos =currentPlayerInTurn.transform.position;
+        Vector3 pos = currentPlayerInTurn.dicePosition.position;
         dice.transform.position = pos;
         dice.transform.GetChild(0).gameObject.SetActive(true);
         dice.transform.GetChild(0).transform.localPosition = Vector3.zero;
@@ -149,8 +149,8 @@ public class GameManagerParchessi : MonoBehaviour
                         {//todo: player and not have numsaving
                             currentPlayerInTurn.SetState(PlayerControllerParchessi.State.readyToRoll);
                             state = StateGameParchessi.none;
-
                         }
+                       
                     }
 
                 }
@@ -181,7 +181,7 @@ public class GameManagerParchessi : MonoBehaviour
 
                     SetCurrentPlayerTurn(currentOrder);
                     InventoryCanvasManager.Instance.LoadInventoryVisual(currentPlayerInTurn.GetComponent<InventoryController>().items);
-                    currentPlayerInTurn.GetComponent<InventoryController>().SetCanUseItem(true);
+                    //currentPlayerInTurn.GetComponent<InventoryController>().SetCanUseItem(true);
 
                     if (!isChestAlready)
                     {
@@ -387,9 +387,9 @@ public class GameManagerParchessi : MonoBehaviour
             }
         }
         //if player ignore chest
-        else if (isStillMove)
+        else if (isStillMove) 
         {
-            state = StateGameParchessi.SomeOneRoll;          
+            state = StateGameParchessi.SomeOneRoll;
             return;
         }
         else
@@ -409,7 +409,38 @@ public class GameManagerParchessi : MonoBehaviour
         //    state = StateGameParchessi.ChestSpawn;
         //}
     }
+    public void GotGoblet()
+    {
+        StepManager.Instance.AsSomeGetGoblet();
+        currentPlayerInTurn.FaceToST(Camera.main.transform.position);
+        GetCurrentPlayerTurn().UpdateStat(PlayerStatController.UpdateStatType.gob, +1);
+        GetCurrentPlayerTurn().UpdateStat(PlayerStatController.UpdateStatType.key,-soGameManager.keyNeedForOpenChest, true);
+        if (currentPlayerInTurn.GetComponent<PlayerStatController>().gobscount == soGameManager.gobletNumToWin)
+        {
+            currentPlayerInTurn.Win();
+            //GameManagerParchessi.Instance.StopAllCoroutines();
+            SetState(StateGameParchessi.SomeOneWin);
+            CanvasManager.Instance.PostNoti(currentPlayerInTurn.name + " Win", 1000f);
+        }
+        else
+        {
+            currentPlayerInTurn.DoDance();
+            if (currentPlayerInTurn.CheckNumSaving()) //Got goblet but still move
+            {
+               WaitEndEffect(5f, true, true);
+                Debug.Log("Got goblet but still move");
+            }
+            else
+            {
+                WaitEndEffect(5f, true);
+            }
+        }
+    }
 
+    public void IgnoreChest()
+    {
+        WaitEndEffect(0f, false, true);
+    }
     public void SetListPlayerSpawn(PlayerControllerParchessi pl)
     {
         if (!pl) listPlayerRepawn.Clear();

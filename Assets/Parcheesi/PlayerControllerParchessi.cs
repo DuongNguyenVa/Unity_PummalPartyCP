@@ -59,12 +59,15 @@ public class PlayerControllerParchessi : MonoBehaviour
 
     //todo:delete
 
-    IEnumerator DelaySetnum(int n)
+    IEnumerator DelaySetnum(int n, bool isDelaySetNum)
     {
-        yield return new WaitForSeconds(2);
-
-        //num = Dice.GetDice();
-        num = n;
+        if (isDelaySetNum)
+        {
+            yield return new WaitForSeconds(2);
+            num = n;
+        }
+        else
+            num = n;
 
     }
     void DiceResultText3DAnim()
@@ -113,7 +116,7 @@ public class PlayerControllerParchessi : MonoBehaviour
         }
     }
 
-    public void DoRooll()
+    public void DoRooll(bool isDelaySetNum = true)
     {
         GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.none);
         InventoryCanvasManager.Instance.ShowUI(false);
@@ -141,7 +144,7 @@ public class PlayerControllerParchessi : MonoBehaviour
             GameManagerParchessi.Instance.FireDice();
         }
 
-        StartCoroutine(DelaySetnum(numRandom));
+        StartCoroutine(DelaySetnum(numRandom, isDelaySetNum));
         state = State.moving;
         currentPositionStep.ReMoveCurrentPlayerToNextTo(this);
     }
@@ -327,14 +330,16 @@ public class PlayerControllerParchessi : MonoBehaviour
         if (numSaving > 0)
         {
             if (!isCheck)
-                DoRooll();
+            {
+                DoRooll(false); //delaySetNum
+            }
             return true;
         }
         return false;
     }
-    public void UpdateStat(PlayerStatController.UpdateStatType updateStatType, int value)
+    public void UpdateStat(PlayerStatController.UpdateStatType updateStatType, int value, bool justOpenChest=false)
     {
-        playerStat.UpdateStat(updateStatType, value);
+        playerStat.UpdateStat(updateStatType, value, justOpenChest);
     }
 
     private void DoIdle()

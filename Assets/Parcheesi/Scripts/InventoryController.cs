@@ -28,7 +28,7 @@ public class InventoryController : MonoBehaviour
     private void Start()
     {
         HideAllObjsVisual();
-        isCanUseItem = true;
+        isCanUseItem = false;
         player = GetComponent<PlayerControllerParchessi>();
     }
     private void Update()
@@ -171,10 +171,12 @@ public class InventoryController : MonoBehaviour
     {
         
         HideAllObjsVisual();
+        player.GetInventoryController().SetCanUseItem(false);
 
         if (currentItemChoses?.itemType == ItemSO.ItemType.attack) //disable anim prepare (if have)
         {
             player.PrepareAttackItem(false);
+
         }
 
         if (currentItemChoses == itemSO)
@@ -220,7 +222,9 @@ public class InventoryController : MonoBehaviour
     }
     private void EquipAttackItem()
     {
+
         ShowItemVisual(ItemSO.ItemType.attack);
+        currentItemEquipVisual.GetComponent<Animation>().Play("ultimate_prepare");
         player.PrepareAttackItem();
     }
     private void ShowItemVisual(ItemSO.ItemType typeI)
