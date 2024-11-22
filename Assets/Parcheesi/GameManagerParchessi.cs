@@ -65,9 +65,11 @@ public class GameManagerParchessi : MonoBehaviour
 
         currentOrder = 0;
         //todo_test: set player 1st
-        SetState(StateGameParchessi.BeforStartTurn);
+       // SetState(StateGameParchessi.BeforStartTurn);
         dice = Instantiate(pfDice, transform);
         dice.transform.GetChild(0).gameObject.SetActive(false);
+
+        BeforStartTurn();
     }
 
     public void ActiveDice()
@@ -89,8 +91,53 @@ public class GameManagerParchessi : MonoBehaviour
         dice.GetComponentInChildren<Animation>().Play("dice_fire");
         DisActiveDice();
     }
+    private void BeforStartTurn()
+    {
+        //set spawn step for all player
+        Step spawnStep = StepManager.Instance.GetSpawnBaseAvalable();
+        for (int i = 0; i < listturnPlayOrder.Count; i++)
+        {
+            listturnPlayOrder[i].currentPositionStep = spawnStep;
+            listturnPlayOrder[i].transform.position = spawnStep.arrayPositionCanStand[i].position;
+        }
+
+        SetCurrentPlayerTurn(0);
+        InventoryCanvasManager.Instance.LoadInventoryVisual(currentPlayerInTurn.GetComponent<InventoryController>().items);
+
+        SpawnTreasureChest();
+    }
+    void DelayRunFunction(float timedelay)
+    {
+        StartCoroutine(CallFunctionAfterDelay());
+        IEnumerator CallFunctionAfterDelay()
+        {
+            yield return new WaitForSeconds(timedelay);
+
+        }
+    }
+    void SpawnTreasureChest()
+    {
+        StepManager.Instance.SpawnNewTeasureChest();
+        isChestAlready = true;
+        StartCoroutine(WaitSpawnTreasureEnd());
+        IEnumerator WaitSpawnTreasureEnd()
+        {
+            yield return new WaitForSeconds(3f);
+            WaitCameraMovingToCurrentPlayer();
+        }
+    }
+    void WaitCameraMovingToCurrentPlayer()
+    {
+        if (!currentPlayerInTurn.CheckNumSaving())
+        {
+            CanvasManager.Instance.PostNoti(currentPlayerInTurn.name + "\' Turn", 3f);
+        }
+        CameraManager.Instance.FocusPlayer(currentPlayerInTurn.transform);
+        SetState(StateGameParchessi.SomeOneRoll);
+    }
     private void Update()
     {
+        return;
         if (RunDelayTime()) return;
 
         switch (state)
