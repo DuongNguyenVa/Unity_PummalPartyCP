@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -73,6 +72,7 @@ public class BotController : MonoBehaviour
                 break;
             case State.Roll:
                 {
+                    GameManagerParchessi.Instance.ActiveDice(player.dicePosition.position);
                     player.DoRooll();
                     botState = State.Idle;
                 }
@@ -100,13 +100,20 @@ public class BotController : MonoBehaviour
 
     private void ChoosingNextWay()
     {
-        List<Step> listStepCanUSe = GetComponent<NavPath>().GetRightWay();
-
+        List<Step> listStepCanUSe = navPath.GetRightWay();
+        if (listStepCanUSe.Contains(player.currentPositionStep))
+        {
+            // if CurrentStep is a MultiType, set it's nextStep is next index in RightWay[List]
+            player.currentPositionStep.nextStep = listStepCanUSe[listStepCanUSe.IndexOf(player.currentPositionStep) + 1];
+            player.SetState(PlayerControllerParchessi.State.moving);
+            GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.none);
+        }
+        return;
         for (int i = 0; i < listStepCanUSe.Count; i++)
         {
             if (listStepCanUSe[i] == player.currentPositionStep)
             {
-                //todo: check CurrentStep(type=multi), set it's nextStep is next index in RightWay[List]
+                // check CurrentStep(type=multi), set it's nextStep is next index in RightWay[List]
                 player.currentPositionStep.nextStep = listStepCanUSe[i + 1];
                 player.SetState(PlayerControllerParchessi.State.moving);
                 GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.none);

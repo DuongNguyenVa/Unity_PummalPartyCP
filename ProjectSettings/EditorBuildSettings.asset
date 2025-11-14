@@ -6,9 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Parcheesi/New Scene.unity
+    path: Assets/Parcheesi/Scenes/GamePlay.unity
     guid: 85206c60fef253a4da54426b84662ff0
   - enabled: 0
     path: Assets/Test/Tets.unity
     guid: 6afe29cce69f3474eb6b317ea38780b8
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0

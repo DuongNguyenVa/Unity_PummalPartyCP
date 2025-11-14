@@ -75,6 +75,4 @@ public class PlayerStatController : MonoBehaviour
     {
         CanvasManager.Instance.UpdatePlayerStat(GetComponent<PlayerControllerParchessi>(), keys, hp, (float)hp / (float)maxHeal);
     }
-
-   
 }
