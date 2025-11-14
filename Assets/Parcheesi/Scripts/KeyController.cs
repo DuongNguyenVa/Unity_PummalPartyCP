@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class KeyController : MonoBehaviour
 {
-    private PlayerControllerParchessi ownerPlayer;
     public Transform keyObj;
 
     private ParticleSystem vfx;
@@ -58,15 +57,10 @@ public class KeyController : MonoBehaviour
         gameObject.SetActive(false);
         SpawnKeyEx.Istaince.AddToListKeyVisualCanUse(this.gameObject);
     }
-    public void SetOwner(PlayerControllerParchessi pl)
-    {
-        ownerPlayer = pl;
-    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out PlayerControllerParchessi player))
         {
-            if(player!=ownerPlayer)
             FollowTarget(player);
         };
     }

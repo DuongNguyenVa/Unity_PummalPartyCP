@@ -1,3 +1,9 @@
 # Unity_PummalPartyCP
 PummalParty Coppy
-v 2022.3.32f1
+
+
+
+13/11
+
+14/11
+optimize ChoosingNextWay() in BotController

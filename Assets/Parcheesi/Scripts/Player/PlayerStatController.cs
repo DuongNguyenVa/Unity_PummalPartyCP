@@ -24,15 +24,16 @@ public class PlayerStatController : MonoBehaviour
         gobscount = 0;
 
     }
-    private void UpdateKey(int k,bool justOpenChest=false)
+    private void UpdateKey(int k)
     {
         if (keys - k < 0)
             keys = 0;
         else keys += k;
 
-        if (k < 0&& !justOpenChest)
+
+        if (k < 0)
         {
-            SpawnKeyEx.Istaince.SpawnIntKeysUsed(Mathf.Abs(k), GetComponent<PlayerControllerParchessi>());
+            SpawnKeyEx.Istaince.SpawnIntKeysUsed(Mathf.Abs(k), GameManagerParchessi.Instance.GetCurrentPlayerTurn().transform);
         }
     }
 
@@ -51,12 +52,12 @@ public class PlayerStatController : MonoBehaviour
         CanvasManager.Instance.UpdatePlayerStat(GetComponent<PlayerControllerParchessi>(), keys, hp, hp / maxHeal, gobscount-1);      
     }
   
-    public void UpdateStat(UpdateStatType updateStatType, int value, bool justOpenChest = false)
+    public void UpdateStat(UpdateStatType updateStatType, int value)
     {
         switch (updateStatType)
         {
             case UpdateStatType.key:
-                UpdateKey(value, justOpenChest);
+                UpdateKey(value);
                 UpdateStat();
                 break;
             case UpdateStatType.hp:
