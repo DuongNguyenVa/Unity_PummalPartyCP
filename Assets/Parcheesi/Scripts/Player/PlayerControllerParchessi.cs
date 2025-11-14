@@ -12,10 +12,11 @@ public class PlayerControllerParchessi : MonoBehaviour
 
     public Step[] steps;
     public float moveSpeed = 5f;
+    public float rotationSpeed = 1f;
     public ParticleSystem vfxRun;
 
-    public int numrockettest = 10; //test num
-    public int numTest = 0; //test num
+    public int numrockettest = 10;
+    public int numTest = 0;
 
     public TextMeshPro diceResultText3D;
     public Transform dicePosition;
@@ -59,15 +60,12 @@ public class PlayerControllerParchessi : MonoBehaviour
 
     //todo:delete
 
-    IEnumerator DelaySetnum(int n, bool isDelaySetNum)
+    IEnumerator DelaySetnum(int n)
     {
-        if (isDelaySetNum)
-        {
-            yield return new WaitForSeconds(2);
-            num = n;
-        }
-        else
-            num = n;
+        yield return new WaitForSeconds(2);
+
+        //num = Dice.GetDice();
+        num = n;
 
     }
     void DiceResultText3DAnim()
@@ -80,8 +78,6 @@ public class PlayerControllerParchessi : MonoBehaviour
             diceResultText3D.fontSize = 0;
         }
     }
-
-    //todo:delete
     private void Update()
     {
         if (GameManagerParchessi.Instance.GetCurrentPlayerTurn() != this) return;
@@ -99,11 +95,11 @@ public class PlayerControllerParchessi : MonoBehaviour
                 }
             }
         }
-        //if (state == State.readyToRoll)
-        //else
-        //    GameManagerParchessi.Instance.DisActiveDice();
+        if (state == State.readyToRoll)
+            GameManagerParchessi.Instance.ActiveDice(dicePosition.position);
+        else
+            GameManagerParchessi.Instance.DisActiveDice();
         DoMove();
-
     }
     private void LateUpdate()
     {
@@ -114,9 +110,9 @@ public class PlayerControllerParchessi : MonoBehaviour
             diceResultText3D.transform.LookAt(lookPoint);
             DiceResultText3DAnim();
         }
-    }
 
-    public void DoRooll(bool isDelaySetNum = true)
+    }
+    public void DoRooll()
     {
         GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.none);
         InventoryCanvasManager.Instance.ShowUI(false);
@@ -144,7 +140,7 @@ public class PlayerControllerParchessi : MonoBehaviour
             GameManagerParchessi.Instance.FireDice();
         }
 
-        StartCoroutine(DelaySetnum(numRandom, isDelaySetNum));
+        StartCoroutine(DelaySetnum(numRandom));
         state = State.moving;
         currentPositionStep.ReMoveCurrentPlayerToNextTo(this);
     }
@@ -213,9 +209,9 @@ public class PlayerControllerParchessi : MonoBehaviour
                     if (bonusTurn > 0)
                     {
                         DoIdle();
-                        DoBunusTurn();
+                        DoBonusTurn();
                     }
-                    else if (num != 1)
+                    else if (num != 1) //basic run and got goblet but not end turn
                     {
                         SetNumSaving();
                     }
@@ -225,7 +221,7 @@ public class PlayerControllerParchessi : MonoBehaviour
 
         }
         else
-        {
+        { // no next step- at a 3-way junction -> chose next step
             if (state == State.moving)
             {
                 state = State.chosing;
@@ -241,8 +237,6 @@ public class PlayerControllerParchessi : MonoBehaviour
     }
     private void MoveToNexStep(Vector3 nextStepPosition)
     {
-
-
         if (Vector3.Distance(transform.position, nextStepPosition) >= 0.01f)
         {
             Vector3 moveDir = nextStepPosition - transform.position;
@@ -251,8 +245,6 @@ public class PlayerControllerParchessi : MonoBehaviour
             Run();
             Vector3 targetPosition = nextStepPosition;
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-
-
         }
         else
         {
@@ -271,16 +263,15 @@ public class PlayerControllerParchessi : MonoBehaviour
             //    currentPositionStep.MoveCurrentPlayerToNextTo(this);
             //}
             num--;
-
             if (num == 0)
-            {
+            {//endturn
                 DoIdle();
                 if (bonusTurn > 0)
                 {
-                    DoBunusTurn();
+                    DoBonusTurn();
                     return;
                 }
-                //endturn
+                //endturn with an effect
                 if (currentPositionStep.TryGetComponent(out StepEffect sEff))
                 {
                     sEff.ActiveEffect(this);
@@ -293,7 +284,7 @@ public class PlayerControllerParchessi : MonoBehaviour
         }
 
     }
-    private void DoBunusTurn()
+    private void DoBonusTurn()
     {
         bonusTurn -= 1;
         GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.SomeOneRoll);
@@ -330,16 +321,14 @@ public class PlayerControllerParchessi : MonoBehaviour
         if (numSaving > 0)
         {
             if (!isCheck)
-            {
-                DoRooll(false); //delaySetNum
-            }
+                DoRooll();
             return true;
         }
         return false;
     }
-    public void UpdateStat(PlayerStatController.UpdateStatType updateStatType, int value, bool justOpenChest=false)
+    public void UpdateStat(PlayerStatController.UpdateStatType updateStatType, int value)
     {
-        playerStat.UpdateStat(updateStatType, value, justOpenChest);
+        playerStat.UpdateStat(updateStatType, value);
     }
 
     private void DoIdle()
@@ -349,9 +338,27 @@ public class PlayerControllerParchessi : MonoBehaviour
         ismove = false;
         IdleAnim();
     }
-    public PlayerStatController GetStat()
+    private Coroutine rotationCoroutine;
+    public void LookCamera()
     {
-        return playerStat;
+        if (rotationCoroutine != null)
+        {
+            StopCoroutine(rotationCoroutine);
+        }
+        Vector3 directionToTarget = Camera.main.transform.position - transform.position;
+        directionToTarget.y = 0; // Keep only the horizontal direction
+        Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+        rotationCoroutine = StartCoroutine(RotateOverTime(targetRotation));
+        IEnumerator RotateOverTime(Quaternion targetRotation)
+        {
+            while (Quaternion.Angle(transform.rotation, targetRotation) > 0.005f)
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+                yield return null;
+            }
+        }
+        transform.rotation = targetRotation;
+        rotationCoroutine = null;
     }
     //anim
     private void Run()

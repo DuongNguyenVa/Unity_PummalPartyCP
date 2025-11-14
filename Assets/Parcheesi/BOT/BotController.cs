@@ -6,7 +6,7 @@ public class BotController : MonoBehaviour
     public PlayerControllerParchessi player;
     public enum State
     {
-        Idle, UseItem, Roll, Move, Choosing, GotGoblet, Attacked, CheckOpenChest
+        Idle, UseItem, Roll, Move, Choosing, GotGoblet, Attacked
     }
     private State botState;
 
@@ -93,38 +93,11 @@ public class BotController : MonoBehaviour
                 break;
             case State.Attacked:
                 break;
-            case State.CheckOpenChest:
-                botState = State.Idle;
-                CheckOpenChest();
-                break;
             default:
                 break;
         }
     }
-    private void CheckOpenChest()
-    {
-        if (player.GetStat().keys >= GameManagerParchessi.Instance.soGameManager.keyNeedForOpenChest)
-        {
 
-            GameManagerParchessi.Instance.GotGoblet();
-        }
-        else
-        {
-            if (player.currentPositionStep.nextStep)
-            {
-                navPath.ResetRightWay(player.currentPositionStep.nextStep, player.currentPositionStep);
-            }
-            else
-            {
-                navPath.ResetRightWay(player.currentPositionStep.nextSteps[0], player.currentPositionStep);
-            }
-            GameManagerParchessi.Instance.IgnoreChest();
-        }
-    }
-    public void SetState(State st)
-    {
-        botState = st;
-    }
     private void ChoosingNextWay()
     {
         List<Step> listStepCanUSe = navPath.GetRightWay();
@@ -136,8 +109,6 @@ public class BotController : MonoBehaviour
             GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.none);
         }
         return;
-        List<Step> listStepCanUSe;
-        listStepCanUSe = GetComponent<NavPath>().GetRightWay();
         for (int i = 0; i < listStepCanUSe.Count; i++)
         {
             if (listStepCanUSe[i] == player.currentPositionStep)
@@ -151,7 +122,6 @@ public class BotController : MonoBehaviour
         }
 
     }
-
     private void OnDisable()
     {
         GameManagerParchessi.Instance.OnGameStateChangeTo -= Instance_OnGameStateChange;

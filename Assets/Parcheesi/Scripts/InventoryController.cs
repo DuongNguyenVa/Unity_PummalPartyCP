@@ -28,7 +28,7 @@ public class InventoryController : MonoBehaviour
     private void Start()
     {
         HideAllObjsVisual();
-        isCanUseItem = false;
+        isCanUseItem = true;
         player = GetComponent<PlayerControllerParchessi>();
     }
     private void Update()
@@ -169,28 +169,22 @@ public class InventoryController : MonoBehaviour
     }
     public void EquipItem(ItemSO itemSO)
     {
-        
         HideAllObjsVisual();
-        player.GetInventoryController().SetCanUseItem(false);
 
         if (currentItemChoses?.itemType == ItemSO.ItemType.attack) //disable anim prepare (if have)
         {
             player.PrepareAttackItem(false);
-
         }
 
         if (currentItemChoses == itemSO)
         {
             currentItemChoses = null;
             player.SetState(PlayerControllerParchessi.State.readyToRoll);
-            GameManagerParchessi.Instance.ActiveDice();
-
         }
         else
         {
             player.SetState(PlayerControllerParchessi.State.usingItem);
             SetCurrentItemChoses(itemSO);
-            GameManagerParchessi.Instance.DisActiveDice();
             switch (itemSO.itemType)
             {
                 case ItemSO.ItemType.none:
@@ -222,9 +216,7 @@ public class InventoryController : MonoBehaviour
     }
     private void EquipAttackItem()
     {
-
         ShowItemVisual(ItemSO.ItemType.attack);
-        currentItemEquipVisual.GetComponent<Animation>().Play("ultimate_prepare");
         player.PrepareAttackItem();
     }
     private void ShowItemVisual(ItemSO.ItemType typeI)

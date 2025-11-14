@@ -110,9 +110,7 @@ public class StepEffect : MonoBehaviour
 
                 break;
             case EffectType.Goblet:
-
-                ShowNotiOpenChest(player, player.GetComponent<PlayerStatController>().keys >= GameManagerParchessi.Instance.soGameManager.keyNeedForOpenChest);
-
+                GotGoblet();
                 break;
             default:
                 break;
@@ -126,16 +124,34 @@ public class StepEffect : MonoBehaviour
         player.GetComponent<InventoryController>().AddItem(ItemSO.GetRamdomItem());
     }
 
-    private void ShowNotiOpenChest(PlayerControllerParchessi pl, bool canBeOpen)
+    public void GotGoblet()
     {
-        if (pl.isBotController)
+        PlayerControllerParchessi player = GameManagerParchessi.Instance.GetCurrentPlayerTurn();
+        //GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.DarkSpace);
+        StepManager.Instance.AsSomeGetGoblet();
+        player.FaceToST(Camera.main.transform.position);
+        GameManagerParchessi.Instance.GetCurrentPlayerTurn().UpdateStat(PlayerStatController.UpdateStatType.gob, +1);
+        if (player.GetComponent<PlayerStatController>().gobscount == 100)
         {
-            pl.GetComponent<BotController>().SetState(BotController.State.CheckOpenChest);
+            player.Win();
+            //GameManagerParchessi.Instance.StopAllCoroutines();
+            GameManagerParchessi.Instance.SetState(GameManagerParchessi.StateGameParchessi.SomeOneWin);
+            CanvasManager.Instance.PostNoti(player.name+" Win", 1000f);
         }
         else
-            CanvasManager.Instance.ToggleOpenChestNoti(true, canBeOpen);
+        {
+            player.DoDance();
+            if (player.CheckNumSaving())
+            {
+                GameManagerParchessi.Instance.WaitEndEffect(timeEffect, true, true);
+                Debug.Log("Got goblet but still move");
+            }
+            else
+            {
+                GameManagerParchessi.Instance.WaitEndEffect(timeEffect, true);
+            }
+        }
     }
-
     public void SetParams(UpdateKeyParams keyParam, UpdateHpParams hpParam, AttackedParams attackedParam)
     {
         updateKey = keyParam;

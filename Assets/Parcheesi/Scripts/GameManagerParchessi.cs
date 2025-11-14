@@ -2,14 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+
 public class GameManagerParchessi : MonoBehaviour
 {
     public static GameManagerParchessi Instance;
-    public SOGameManager soGameManager;
     public enum StateGameParchessi
     {
         none, BeforStartTurn, ChestSpawn, StartTurn, WaitSomeoneEnd, NextOrder, EndTurn, DarkSpace, LightSpace, SomeOneChosing,
-        SomeOneRoll, SomeOneMove, SomeOneGetEffect, SomeOneGetGoblrtStillMoving, WaitCameraMoving, EndOrder, SomeOneEquipItem, SomeOneUsingItem,
+        SomeOneRoll, SomeOneMove, SomeOneGetEffect, SomeOneGetGoblrtStillMoving, WaitCameraMoving, EndOrder, SomeOneUsingItem,
         SomeOneWin, SomeOneDead, SpawnPlayer
     }
     private StateGameParchessi state;
@@ -65,93 +66,41 @@ public class GameManagerParchessi : MonoBehaviour
 
         currentOrder = 0;
         //todo_test: set player 1st
-       // SetState(StateGameParchessi.BeforStartTurn);
+        SetState(StateGameParchessi.BeforStartTurn);
         dice = Instantiate(pfDice, transform);
         dice.transform.GetChild(0).gameObject.SetActive(false);
-
-        BeforStartTurn();
     }
 
-    public void ActiveDice()
+    public void ActiveDice(Vector3 pos)
     {
-        //Vector3 pos =currentPlayerInTurn.transform.position;
-        Vector3 pos = currentPlayerInTurn.dicePosition.position;
-        dice.transform.position = pos;
-        dice.transform.GetChild(0).gameObject.SetActive(true);
-        dice.transform.GetChild(0).transform.localPosition = Vector3.zero;
-        dice.GetComponentInChildren<Animation>().Play();
-
+        if (!dice.transform.GetChild(0).gameObject.activeSelf)
+        {
+            dice.transform.GetChild(0).gameObject.SetActive(true);
+            dice.transform.GetChild(0).transform.localPosition = Vector3.zero;
+            dice.GetComponentInChildren<Animation>().Play();
+            dice.transform.position = pos;
+        }
     }
     public void DisActiveDice()
     {
-        dice.transform.GetChild(0).gameObject.SetActive(false);
+        if (dice.transform.GetChild(0).gameObject.activeSelf)
+        {
+            dice.transform.GetChild(0).gameObject.SetActive(false);
+        }
     }
     public void FireDice()
     {
         dice.GetComponentInChildren<Animation>().Play("dice_fire");
         DisActiveDice();
     }
-    private void BeforStartTurn()
-    {
-        //set spawn step for all player
-        Step spawnStep = StepManager.Instance.GetSpawnBaseAvalable();
-        for (int i = 0; i < listturnPlayOrder.Count; i++)
-        {
-            listturnPlayOrder[i].currentPositionStep = spawnStep;
-            listturnPlayOrder[i].transform.position = spawnStep.arrayPositionCanStand[i].position;
-        }
-
-        SetCurrentPlayerTurn(0);
-        InventoryCanvasManager.Instance.LoadInventoryVisual(currentPlayerInTurn.GetComponent<InventoryController>().items);
-
-        SpawnTreasureChest();
-    }
-    void DelayRunFunction(float timedelay)
-    {
-        StartCoroutine(CallFunctionAfterDelay());
-        IEnumerator CallFunctionAfterDelay()
-        {
-            yield return new WaitForSeconds(timedelay);
-
-        }
-    }
-    void SpawnTreasureChest()
-    {
-        StepManager.Instance.SpawnNewTeasureChest();
-        isChestAlready = true;
-        StartCoroutine(WaitSpawnTreasureEnd());
-        IEnumerator WaitSpawnTreasureEnd()
-        {
-            yield return new WaitForSeconds(3f);
-            WaitCameraMovingToCurrentPlayer();
-        }
-    }
-    void WaitCameraMovingToCurrentPlayer()
-    {
-        if (!currentPlayerInTurn.CheckNumSaving())
-        {
-            CanvasManager.Instance.PostNoti(currentPlayerInTurn.name + "\' Turn", 3f);
-        }
-        CameraManager.Instance.FocusPlayer(currentPlayerInTurn.transform);
-        SetState(StateGameParchessi.SomeOneRoll);
-    }
     private void Update()
     {
-        return;
         if (RunDelayTime()) return;
 
         switch (state)
         {
             case StateGameParchessi.BeforStartTurn:
                 {
-                    //set spawn step for all player
-                    Step spawnStep = StepManager.Instance.GetSpawnBaseAvalable();
-                    for (int i = 0; i < listturnPlayOrder.Count; i++)
-                    {
-                        listturnPlayOrder[i].currentPositionStep = spawnStep;
-                        listturnPlayOrder[i].transform.position = spawnStep.arrayPositionCanStand[i].position;
-                    }
-
                     SetCurrentPlayerTurn(0);
                     InventoryCanvasManager.Instance.LoadInventoryVisual(currentPlayerInTurn.GetComponent<InventoryController>().items);
                     state = StateGameParchessi.ChestSpawn;
@@ -180,11 +129,6 @@ public class GameManagerParchessi : MonoBehaviour
                 break;
             case StateGameParchessi.SomeOneRoll:
                 {
-                    if (!currentPlayerInTurn.CheckNumSaving())
-                    {
-                        ActiveDice();
-                    }
-
                     if (currentPlayerInTurn.isBotController)
                     {
                         OnGameStateChangeTo?.Invoke(state);
@@ -196,8 +140,8 @@ public class GameManagerParchessi : MonoBehaviour
                         {//todo: player and not have numsaving
                             currentPlayerInTurn.SetState(PlayerControllerParchessi.State.readyToRoll);
                             state = StateGameParchessi.none;
+
                         }
-                       
                     }
 
                 }
@@ -219,7 +163,7 @@ public class GameManagerParchessi : MonoBehaviour
                 break;
             case StateGameParchessi.NextOrder:
                 {
-                    //last order
+                    // if this player is last order
                     if (currentOrder == listturnPlayOrder.Count)
                     {
                         currentOrder = 0;
@@ -228,7 +172,7 @@ public class GameManagerParchessi : MonoBehaviour
 
                     SetCurrentPlayerTurn(currentOrder);
                     InventoryCanvasManager.Instance.LoadInventoryVisual(currentPlayerInTurn.GetComponent<InventoryController>().items);
-                    //currentPlayerInTurn.GetComponent<InventoryController>().SetCanUseItem(true);
+                    currentPlayerInTurn.GetComponent<InventoryController>().SetCanUseItem(true);
 
                     if (!isChestAlready)
                     {
@@ -425,19 +369,11 @@ public class GameManagerParchessi : MonoBehaviour
             //    StartCoroutine(SpawnChestDelay());
             //    return;
             //}
-
-
             IEnumerator SpawnChestDelay()
             {
                 yield return new WaitForSeconds(effTime);
                 state = StateGameParchessi.ChestSpawn;
             }
-        }
-        //if player ignore chest
-        else if (isStillMove) 
-        {
-            state = StateGameParchessi.SomeOneRoll;
-            return;
         }
         else
             state = StateGameParchessi.SomeOneGetEffect;
@@ -446,48 +382,12 @@ public class GameManagerParchessi : MonoBehaviour
         IEnumerator End()
         {
             yield return new WaitForSeconds(effTime);
-
+            currentPlayerInTurn.LookCamera();
             state = StateGameParchessi.EndOrder;
 
         }
-        //IEnumerator SpawnChestDelay()
-        //{
-        //    yield return new WaitForSeconds(effTime);
-        //    state = StateGameParchessi.ChestSpawn;
-        //}
-    }
-    public void GotGoblet()
-    {
-        StepManager.Instance.AsSomeGetGoblet();
-        currentPlayerInTurn.FaceToST(Camera.main.transform.position);
-        GetCurrentPlayerTurn().UpdateStat(PlayerStatController.UpdateStatType.gob, +1);
-        GetCurrentPlayerTurn().UpdateStat(PlayerStatController.UpdateStatType.key,-soGameManager.keyNeedForOpenChest, true);
-        if (currentPlayerInTurn.GetComponent<PlayerStatController>().gobscount == soGameManager.gobletNumToWin)
-        {
-            currentPlayerInTurn.Win();
-            //GameManagerParchessi.Instance.StopAllCoroutines();
-            SetState(StateGameParchessi.SomeOneWin);
-            CanvasManager.Instance.PostNoti(currentPlayerInTurn.name + " Win", 1000f);
-        }
-        else
-        {
-            currentPlayerInTurn.DoDance();
-            if (currentPlayerInTurn.CheckNumSaving()) //Got goblet but still move
-            {
-               WaitEndEffect(5f, true, true);
-                Debug.Log("Got goblet but still move");
-            }
-            else
-            {
-                WaitEndEffect(5f, true);
-            }
-        }
     }
 
-    public void IgnoreChest()
-    {
-        WaitEndEffect(0f, false, true);
-    }
     public void SetListPlayerSpawn(PlayerControllerParchessi pl)
     {
         if (!pl) listPlayerRepawn.Clear();

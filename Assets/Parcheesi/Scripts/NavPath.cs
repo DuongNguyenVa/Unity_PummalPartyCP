@@ -17,10 +17,7 @@ public class NavPath : MonoBehaviour
         StepManager.Instance.OnChestSpawn += Instance_OnChestSpawn;
         player = GetComponent<PlayerControllerParchessi>();
     }
-    private void OnDisable()
-    {
-        StepManager.Instance.OnChestSpawn -= Instance_OnChestSpawn;
-    }
+
     private void Instance_OnChestSpawn(Step obj)
     {
         rightWay = ChoosingRightWay(player.currentPositionStep, obj);
@@ -87,8 +84,5 @@ public class NavPath : MonoBehaviour
     {
         rightWay.Remove(st);
     }
-    public void ResetRightWay(Step startStep, Step targetStep)
-    {
-        rightWay = ChoosingRightWay(startStep, targetStep);
-    }
+
 }
