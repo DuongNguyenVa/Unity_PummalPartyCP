@@ -7,6 +7,8 @@ using UnityEngine;
 public class StepManager : MonoBehaviour
 {
     public static StepManager Instance;
+    public List<Step> spawnBases = new List<Step>();
+
 
     public event Action<Step> OnChestSpawn;
 
@@ -20,15 +22,17 @@ public class StepManager : MonoBehaviour
     private Step stepIsVisualForChest;
     private StepEffect.EffectType stepEffectType;
 
-    Step stepForNewChest;
-    public List<Step> spawnBases = new List<Step>();
-    Transform spawnParent;
+    private Step stepForNewChest;
+    private Transform spawnParent;
+    private List<Step> allStepOnmap = new List<Step>();
+    [SerializeField] private int minimumStepsToChest=9; 
     private void Awake()
     {
         Instance = this;
     }
     private void Start()
     {
+        allStepOnmap= GetComponentsInChildren<Step>().ToList();
         treaserChestVisual = Instantiate(pfTreaserChestVisual, transform);
         treaserChestVisual.SetActive(false);
         CameraManager.Instance.SetTargetForEventCam(treaserChestVisual.transform);
@@ -127,16 +131,15 @@ public class StepManager : MonoBehaviour
         CameraManager.Instance.FocusEvent();
 
         //GetListStepCantUseByUser(GameManagerParchessi.Instance.GetCurrentPlayerTurn().currentPositionStep, 0);
-        List<Step> listSteps = new List<Step>();
+        List<Step> listStepsPlayerStanding = new List<Step>();
         foreach (PlayerControllerParchessi st in GameManagerParchessi.Instance.GetListCurrentPlayerTurn())
         {
-            if (listSteps.Count(i => i == st.currentPositionStep) > 1)
+            if (!listStepsPlayerStanding.Contains(st.currentPositionStep))
             {
-                break;
+                listStepsPlayerStanding.Add(st.currentPositionStep);
             }
-            listSteps.Add(st.currentPositionStep);
         }
-        GetListStepCantUseByUser(listSteps, 9);
+        GetListStepCantUseByUser(listStepsPlayerStanding, minimumStepsToChest);
 
         stepForNewChest = stepsCanSpawnChest[UnityEngine.Random.Range(0, stepsCanSpawnChest.Count)];
         OnChestSpawn?.Invoke(stepForNewChest);
@@ -145,33 +148,32 @@ public class StepManager : MonoBehaviour
         ChangeStepToTreaserChestStep(stepForNewChest);
     }
 
-    void GetListStepCantUseByUser(List<Step> listSt, int countStep = 0)
+    void GetListStepCantUseByUser(List<Step> listStepPlayerUsing, int minimumStepsToChest = 0)
     {
         ResetListStepCanSpawnChest();
-        foreach (Step st in listSt)
+        foreach (Step st in listStepPlayerUsing)
         {
-            RemoveStepsCantSpawnChest(st, countStep + 1);
+            RemoveStepsCantSpawnChest(st, minimumStepsToChest + 1);
         }
     }
     void RemoveStepsCantSpawnChest(Step st, int countStep)
-    {
+    {   //remove step player is standing + next steps until countStep=0
         if (countStep <= 0) return;
-        Step ns = st;
-        if (ns.stepType == Step.StepType.Multi)
+        if(stepsCanSpawnChest.Contains(st)) stepsCanSpawnChest.Remove(st);
+        if (st.stepType == Step.StepType.Multi)
         {
-            foreach (Step step in ns.nextSteps)
+            foreach (Step step in st.nextSteps)
             {
                 RemoveStepsCantSpawnChest(step, countStep - 1);
             }
         }
         else
-            RemoveStepsCantSpawnChest(ns.nextStep, countStep - 1);
-        stepsCanSpawnChest.Remove(ns);
+            RemoveStepsCantSpawnChest(st.nextStep, countStep - 1);
     }
     void ResetListStepCanSpawnChest()
     {
         stepsCanSpawnChest.Clear();
-        foreach (Step st in GetComponentsInChildren<Step>())
+        foreach (Step st in allStepOnmap)
         {
             if (st.TryGetComponent(out StepEffect sEff))
             {

@@ -27,7 +27,7 @@ public class PlayerControllerParchessi : MonoBehaviour
     private int currentWaypointIndex = 0;
     private bool ismove = false;
     private Vector3 nextPosition;
-    public Step currentPositionStep; //test
+    public Step currentPositionStep; 
     private State state;
     private InventoryController inventoryController;
 
