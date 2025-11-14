@@ -8,10 +8,10 @@ public class ItemSO : ScriptableObject
 {
     public enum ItemType
     {
-       none, rocket,heal, attack
+        none, rocket, heal, attack
     }
     public ItemType itemType;
-    public  string itemName;
+    public string itemName;
     public Sprite sprite;
     public ParticleSystem vfx;
     public float time;
@@ -32,8 +32,8 @@ public class ItemSO : ScriptableObject
                 break;
             case ItemType.heal:
                 {
-                   player.UseHealthItem(vfx, time);
-                   player.UpdateStat(PlayerStatController.UpdateStatType.hp,hpBuff);                    
+                    player.UseHealthItem(vfx, time);
+                    player.UpdateStat(PlayerStatController.UpdateStatType.hp, hpBuff);
                 }
                 break;
             case ItemType.attack:
@@ -42,6 +42,7 @@ public class ItemSO : ScriptableObject
                     {
                         playerAttacked.GetAttacked();
                         playerAttacked.UpdateStat(PlayerStatController.UpdateStatType.hp, -100);
+                        playerAttacked.UpdateStat(PlayerStatController.UpdateStatType.key, -(int)Mathf.Floor((float)2 / 3 * playerAttacked.GetStat().keys));
                     }
                     player.UseAttackItemUltimate();
 
@@ -50,10 +51,10 @@ public class ItemSO : ScriptableObject
             default:
                 break;
         }
-      
+
     }
     public static ItemType GetRamdomItem()
     {
         return (ItemType)Random.Range(1, System.Enum.GetValues(typeof(ItemType)).Length);
     }
- }
+}

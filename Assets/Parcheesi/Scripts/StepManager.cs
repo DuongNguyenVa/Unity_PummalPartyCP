@@ -127,17 +127,18 @@ public class StepManager : MonoBehaviour
         CameraManager.Instance.FocusEvent();
 
         //GetListStepCantUseByUser(GameManagerParchessi.Instance.GetCurrentPlayerTurn().currentPositionStep, 0);
-        List<Step> listSteps = new List<Step>();
+        List<Step> listPlayerStepPosition = new List<Step>();
         foreach (PlayerControllerParchessi st in GameManagerParchessi.Instance.GetListCurrentPlayerTurn())
         {
-            if (listSteps.Count(i => i == st.currentPositionStep) > 1)
+            if (listPlayerStepPosition.Count(i => i == st.currentPositionStep) > 1)
             {
                 break;
             }
-            listSteps.Add(st.currentPositionStep);
+            listPlayerStepPosition.Add(st.currentPositionStep);
         }
-        GetListStepCantUseByUser(listSteps, 9);
-
+        //todo: get list step can spawn chest for multi players
+        GetListStepCantUseByUsers(listPlayerStepPosition, 9);
+       
         stepForNewChest = stepsCanSpawnChest[UnityEngine.Random.Range(0, stepsCanSpawnChest.Count)];
         OnChestSpawn?.Invoke(stepForNewChest);
         //todo; reduce first step
@@ -145,7 +146,7 @@ public class StepManager : MonoBehaviour
         ChangeStepToTreaserChestStep(stepForNewChest);
     }
 
-    void GetListStepCantUseByUser(List<Step> listSt, int countStep = 0)
+    void GetListStepCantUseByUsers(List<Step> listSt, int countStep = 0)
     {
         ResetListStepCanSpawnChest();
         foreach (Step st in listSt)
@@ -182,7 +183,6 @@ public class StepManager : MonoBehaviour
                 stepsCanSpawnChest.Add(st);
 
         }
-       
     }
 
     public Step GetSpawnBaseAvalable()
