@@ -10897,7 +10897,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!64 &1446356580
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -10927,7 +10927,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1446356579}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -12132,6 +12132,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: lol_map_full
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 44e3b0f5ff129ab488ed9355d6fee5ab, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13276,7 +13280,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ade9a3f057b9c944a180bb930874f5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   pfTreaserChest: {fileID: 1524898951222367610, guid: 46bb8b00a78dda54a858207a32ee617d, type: 3}
+  numOfgobsToWin: 3
   stepsCanSpawnChest: []
   listturnPlayOrder: []
   parentAllPlayer: {fileID: 84727865}

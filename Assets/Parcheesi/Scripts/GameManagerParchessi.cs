@@ -13,12 +13,15 @@ public class GameManagerParchessi : MonoBehaviour
         SomeOneRoll, SomeOneMove, SomeOneGetEffect, SomeOneGetGoblrtStillMoving, WaitCameraMoving, EndOrder, SomeOneUsingItem,
         SomeOneWin, SomeOneDead, SpawnPlayer
     }
+    [SerializeField]
     private StateGameParchessi state;
 
     //public event EventHandler OnGameStateChange;
     public event Action<StateGameParchessi> OnGameStateChangeTo;
 
     public Step pfTreaserChest;
+    public int numOfgobsToWin = 3;
+
     private Step treaserChest;
 
     private Light lightMain;
@@ -120,7 +123,7 @@ public class GameManagerParchessi : MonoBehaviour
                 {
                     if (!currentPlayerInTurn.CheckNumSaving())
                     {
-                        CanvasManager.Instance.PostNoti(currentPlayerInTurn.name + "\' Turn", 3f);
+                        CanvasManager.Instance.PostNoti(currentPlayerInTurn.name + "\' Turn", 2f);
                     }
                     CameraManager.Instance.FocusPlayer(currentPlayerInTurn.transform);
                     state = StateGameParchessi.SomeOneRoll;
@@ -351,14 +354,14 @@ public class GameManagerParchessi : MonoBehaviour
     {
         SetCurrentPlayerTurn();
     }
-    public void WaitEndEffect(float effTime = 0, bool isGetGoblet = false, bool isStillMove = false)
+    public void WaitEndEffect(float effTime = 0, bool isGetGoblet = false, bool isPlayerCanStillMove = false)
     {
         //EndOrder();
 
         if (isGetGoblet)
         {
             isChestAlready = false;
-            if (isStillMove)
+            if (isPlayerCanStillMove)
             {
                 state = StateGameParchessi.SomeOneGetGoblrtStillMoving;
                 StartCoroutine(SpawnChestDelay());
@@ -384,7 +387,6 @@ public class GameManagerParchessi : MonoBehaviour
             yield return new WaitForSeconds(effTime);
             currentPlayerInTurn.LookCamera();
             state = StateGameParchessi.EndOrder;
-
         }
     }
 
